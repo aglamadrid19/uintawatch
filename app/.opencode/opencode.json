@@ -1,1 +1,18 @@
-{"$schema":"https://opencode.ai/config.json","skills":{"paths":[".opencode/skills"]},"plugins":{"paths":[".opencode/plugins"]}}
+{
+  "$schema": "https://opencode.ai/config.json",
+  "skills": {
+    "paths": [
+      ".opencode/skills"
+    ]
+  },
+  "plugins": {
+    "paths": [
+      ".opencode/plugins"
+    ]
+  },
+  "model": "",
+  "provider": {},
+  "permission": {},
+  "autoupdate": true,
+  "server": {}
+}

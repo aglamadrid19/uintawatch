@@ -1,0 +1,10 @@
+# app
+app/.expo/
+app/android
+app/ios
+app/node_modules
+app/dist
+app/.opencode/screenshots
+
+# general
+.DS_Store
