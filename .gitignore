@@ -8,3 +8,4 @@ app/.opencode/screenshots
 
 # general
 .DS_Store
+.env*

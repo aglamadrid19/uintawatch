@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SensorWithReading } from "../types";
-import { colors, spacing, radius, shadows } from "../constants/theme";
+import { colors, spacing, radius, shadows } from "../theme";
 
 interface MapCalloutProps {
   sensor: SensorWithReading;

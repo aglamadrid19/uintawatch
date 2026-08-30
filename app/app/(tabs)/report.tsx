@@ -18,7 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { apiService } from "../../src/services/api";
 import { LoadingOverlay } from "../../src/components";
-import { colors, spacing, radius, shadows } from "../../src/constants/theme";
+import { colors, spacing, radius, shadows } from "../../src/theme";
 
 export default function ReportScreen() {
   const router = useRouter();
@@ -107,7 +107,7 @@ export default function ReportScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.hero}>
+        <View style={styles.hero} accessible={true} accessibilityLabel="Report fire or smoke">
           <View style={styles.heroIconWrap}>
             <Ionicons name="flame" size={28} color={colors.fire} />
           </View>
@@ -120,23 +120,23 @@ export default function ReportScreen() {
         <View style={styles.card}>
           <Text style={styles.cardLabel}>YOUR LOCATION</Text>
           {location ? (
-            <View style={styles.locationRow}>
+            <View style={styles.locationRow} accessible={true} accessibilityRole="text">
               <View style={styles.locationDot} />
               <View style={styles.locationInfo}>
-                <Text style={styles.locationCoords}>
+                <Text style={styles.locationCoords} selectable>
                   {location.coords.latitude.toFixed(6)}, {location.coords.longitude.toFixed(6)}
                 </Text>
-                <Text style={styles.locationStatus}>GPS active · accurate</Text>
+                <Text style={styles.locationStatus} selectable>GPS active · accurate</Text>
               </View>
             </View>
           ) : locationError ? (
             <View style={styles.locationErrorBox}>
-              <Text style={styles.errorText}>{locationError}</Text>
+              <Text style={[styles.errorText]} selectable>{locationError}</Text>
             </View>
           ) : (
-            <View style={styles.locationLoadingBox}>
+            <View style={styles.locationLoadingBox} accessible={true} accessibilityRole="text">
               <ActivityIndicator size="small" color={colors.fire} />
-              <Text style={styles.locationLoadingText}>Getting location...</Text>
+              <Text style={styles.locationLoadingText} selectable>Getting location...</Text>
             </View>
           )}
         </View>
@@ -152,32 +152,38 @@ export default function ReportScreen() {
             multiline
             numberOfLines={4}
             textAlignVertical="top"
+            accessible={true}
+            accessibilityLabel="Describe what you observed"
           />
-          <Text style={styles.charCount}>{description.length} characters</Text>
+            <Text style={styles.charCount} selectable>{description.length} characters</Text>
         </View>
 
         <View style={styles.card}>
           <Text style={styles.cardLabel}>PHOTO (OPTIONAL)</Text>
           {photoUri ? (
             <View style={styles.photoPreview}>
-              <Image source={{ uri: photoUri }} style={styles.photoImage} />
-              <TouchableOpacity style={styles.removeBtn} onPress={() => setPhotoUri(null)}>
-                <Text style={styles.removeBtnText}>Remove photo</Text>
+              <Image source={{ uri: photoUri }} style={styles.photoImage} accessible={true} accessibilityLabel="Photo preview" />
+              <TouchableOpacity style={styles.removeBtn} onPress={() => setPhotoUri(null)} accessibilityRole="button" accessibilityLabel="Remove photo" disabled={submitting}>
+                <Text style={styles.removeBtnText} selectable>Remove photo</Text>
               </TouchableOpacity>
             </View>
           ) : (
             <View style={styles.photoActions}>
-              <TouchableOpacity style={styles.photoBtn} onPress={handleTakePhoto}>
+              <TouchableOpacity style={styles.photoBtn} onPress={handleTakePhoto} accessibilityRole="button" accessibilityLabel="Take photo" disabled={submitting}>
                 <View style={styles.photoBtnIcon}>
                   <Ionicons name="camera" size={24} color={colors.fire} />
                 </View>
-                <Text style={styles.photoBtnText}>Camera</Text>
+                <Text style={styles.photoBtnText} selectable>
+                  Camera
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.photoBtn} onPress={handlePickImage}>
+              <TouchableOpacity style={styles.photoBtn} onPress={handlePickImage} accessibilityRole="button" accessibilityLabel="Choose from gallery" disabled={submitting}>
                 <View style={styles.photoBtnIcon}>
                   <Ionicons name="images" size={24} color={colors.sky} />
                 </View>
-                <Text style={styles.photoBtnText}>Gallery</Text>
+                <Text style={styles.photoBtnText} selectable>
+                  Gallery
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -187,9 +193,15 @@ export default function ReportScreen() {
           style={[styles.submitBtn, !isValid && styles.submitBtnDisabled]}
           onPress={handleSubmit}
           disabled={!isValid || submitting}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={isValid ? "Submit report" : "Submit report requires location and description"}
+          accessibilityHint={!isValid ? "Please include location and description to submit" : ""}
         >
           <Ionicons name="paper-plane" size={18} color="#fff" style={{ marginRight: spacing.sm }} />
-          <Text style={styles.submitBtnText}>Submit Report</Text>
+          <Text style={styles.submitBtnText} selectable>
+            {submitting ? "Submitting..." : isValid ? "Submit report" : "Submit report requires location and description"}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
       <LoadingOverlay visible={submitting} message="Submitting report..." />
@@ -202,7 +214,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: {
     padding: spacing.lg,
-    paddingBottom: 120,
+    paddingBottom: 160,
   },
   hero: {
     alignItems: "center",

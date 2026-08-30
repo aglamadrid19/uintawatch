@@ -6,23 +6,24 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "org.uintawatch.app",
+      "bundleIdentifier": "com.uintawatch.app",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Uinta Watch needs your location to show nearby sensors and submit fire reports.",
         "NSCameraUsageDescription": "Uinta Watch needs camera access to take photos of fire sightings.",
-        "NSPhotoLibraryUsageDescription": "Uinta Watch needs photo library access to attach images to fire reports."
+        "NSPhotoLibraryUsageDescription": "Uinta Watch needs photo library access to attach images to fire reports.",
+        "ITSAppUsesNonExemptEncryption": false
       },
-      "appleTeamId": ""
+      "appleTeamId": "6GYGD7G5ZB",
+      "buildNumber": "6"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#C45A3B",
-        "foregroundImage": "./assets/android-icon-foreground.png",
+        "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "package": "org.uintawatch.app",
+      "package": "com.uintawatch.app",
       "permissions": [
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -46,7 +47,8 @@
           "photosPermission": "Uinta Watch needs photo library access to attach images to fire reports.",
           "cameraPermission": "Uinta Watch needs camera access to take photos of fire sightings."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "web": {
       "favicon": "./assets/favicon.png",
@@ -54,9 +56,11 @@
     },
     "extra": {
       "eas": {
-        "projectId": "uintawatch"
-      }
+        "projectId": "ca783830-cf35-4346-9099-3ab7ff324b76"
+      },
+      "router": {}
     },
-    "scheme": "uintawatch"
+    "scheme": "uintawatch",
+    "owner": "alperper"
   }
 }

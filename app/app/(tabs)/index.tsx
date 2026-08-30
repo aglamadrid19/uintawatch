@@ -1,31 +1,26 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { View, StyleSheet, RefreshControl, ScrollView, Text, useWindowDimensions, ActivityIndicator } from "react-native";
 import MapView, { Marker, Callout, Region } from "react-native-maps";
 import { useRouter } from "expo-router";
-import { useAppStore } from "../../src/store/appStore";
+import { useSensors } from "../../src/hooks";
 import { SensorWithReading } from "../../src/types";
 import { SensorCard, MapCallout } from "../../src/components";
-import { colors, spacing, radius, shadows, UTAH_REGION, MAP_MARKER_COLORS } from "../../src/constants/theme";
+import { colors, spacing, radius, shadows, UTAH_REGION, MAP_MARKER_COLORS } from "../../src/theme";
 
 export default function MapScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const mapHeight = Math.min(width * 0.6, 320);
-  const { sensors, isLoading, fetchSensors, startPolling } = useAppStore();
+  const { data: sensors, isLoading, error, refetch } = useSensors(true);
   const [refreshing, setRefreshing] = useState(false);
   const [region] = useState<Region>(UTAH_REGION);
   const [mapReady, setMapReady] = useState(false);
 
-  useEffect(() => {
-    const stopPolling = startPolling();
-    return stopPolling;
-  }, [startPolling]);
-
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await fetchSensors();
+    await refetch();
     setRefreshing(false);
-  }, [fetchSensors]);
+  }, [refetch]);
 
   const handleCardPress = (sensor: SensorWithReading) => {
     router.push(`/sensor/${sensor.id}`);
@@ -35,7 +30,7 @@ export default function MapScreen() {
     router.push(`/sensor/${sensor.id}`);
   };
 
-  if (isLoading && sensors.length === 0) {
+  if (isLoading && !sensors) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.fire} />
@@ -44,9 +39,19 @@ export default function MapScreen() {
     );
   }
 
-  const onlineSensors = sensors.filter(s => s.status === "online").length;
-  const alertSensors = sensors.filter(s => s.status === "alert").length;
-  const totalSensors = sensors.length;
+  if (error && !sensors) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorTitle}>Connection Error</Text>
+        <Text style={styles.errorMessage}>Unable to load sensor data. Please check your connection and try again.</Text>
+      </View>
+    );
+  }
+
+  const list = sensors ?? [];
+  const onlineSensors = list.filter(s => s.status === "online").length;
+  const alertSensors = list.filter(s => s.status === "alert").length;
+  const totalSensors = list.length;
 
   return (
     <View style={styles.container}>
@@ -61,7 +66,7 @@ export default function MapScreen() {
           scrollEnabled={true}
           onMapReady={() => setMapReady(true)}
         >
-          {mapReady && sensors.map((sensor) => (
+          {mapReady && sensors?.map((sensor) => (
             <Marker
               key={sensor.id}
               coordinate={{ latitude: sensor.lat, longitude: sensor.lng }}
@@ -113,10 +118,10 @@ export default function MapScreen() {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.fire} />
           }
         >
-          {sensors.map((sensor) => (
+          {sensors?.map((sensor) => (
             <SensorCard key={sensor.id} sensor={sensor} onPress={() => handleCardPress(sensor)} />
           ))}
-          {sensors.length === 0 && (
+          {!sensors && (
             <View style={styles.emptyState}>
               <View style={styles.emptyIconWrap}>
                 <Text style={styles.emptyIcon}>⊙</Text>
@@ -143,6 +148,25 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
     fontSize: 15,
     color: colors.inkMuted,
+  },
+  errorContainer: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: spacing.lg,
+  },
+  errorTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: colors.ink,
+    marginBottom: spacing.sm,
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: colors.inkMuted,
+    textAlign: "center",
+    lineHeight: 22,
   },
   mapWrap: {
     width: "100%",

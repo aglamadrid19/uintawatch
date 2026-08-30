@@ -7,21 +7,21 @@ This directory contains specialized subagents that can be invoked for specific t
 ### image
 Creates and generates images (illustrations, mockups, diagrams, graphics) using the gemini vision model. Use whenever an image needs to be created, generated, or produced and the main text model cannot create it.
 
-**Model:** gemini-3-1-pro-preview  
+**Model:** gemini-3.1-pro-preview  
 **Permissions:** read, edit  
 **Usage:** When you need to generate new images, create mockups, or produce graphics
 
 ### vision
 Inspects and interprets image files (screenshots, mockups, diagrams) using the gemini vision model. Use whenever an image needs to be analyzed, described, or reviewed and the main text model cannot see it.
 
-**Model:** gemini-2.5-flash  
+**Model:** gemini-3.1-pro-preview  
 **Permissions:** read, deny edit  
 **Usage:** When you need to analyze screenshots, review designs, or understand visual content
 
 ### ui-reviewer
 Same functionality as the vision subagent - inspects and interprets image files using the gemini vision model.
 
-**Model:** gemini-2.5-flash  
+**Model:** gemini-3.1-pro-preview  
 **Permissions:** read, deny edit  
 **Usage:** When you need to analyze screenshots, review designs, or understand visual content
 
@@ -70,8 +70,8 @@ Subagents can be invoked in several ways:
 ```
 
 These subagents utilize specialized models tuned for their respective tasks:
-- **Image generation** uses gemini-3-1-pro-preview (better for creation tasks)
-- **Vision analysis** uses gemini-2.5-flash (faster for analysis tasks)
+- **Image generation** uses gemini-3.1-pro-preview (better for creation tasks)
+- **Vision analysis** uses gemini-3.1-pro-preview (faster for analysis tasks)
 
 ## Integration with Skills
 

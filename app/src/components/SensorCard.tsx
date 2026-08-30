@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SensorWithReading } from "../types";
-import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../constants/theme";
+import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../theme";
 
 interface SensorCardProps {
   sensor: SensorWithReading;
@@ -26,6 +26,10 @@ export const SensorCard: React.FC<SensorCardProps> = ({ sensor, onPress }) => {
 
   return (
     <TouchableOpacity
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel={`${sensor.name}, ${reading?.tempC.toFixed(1)}°, ${sensor.status}`}
+      accessibilityState={{ disabled: sensor.status === 'offline' }}
       style={[styles.container, isAlert && { backgroundColor: bgColor }]}
       onPress={onPress}
       activeOpacity={0.7}

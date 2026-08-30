@@ -1,23 +1,19 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { View, Text, StyleSheet, FlatList, RefreshControl, ActivityIndicator } from "react-native";
-import { useAppStore } from "../../src/store/appStore";
+import { useAlerts } from "../../src/hooks";
 import { AlertItem } from "../../src/components";
 import { Alert } from "../../src/types";
-import { colors, spacing, radius, shadows } from "../../src/constants/theme";
+import { colors, spacing, radius, shadows } from "../../src/theme";
 
 export default function AlertFeedScreen() {
-  const { alerts, isLoading, fetchAlerts } = useAppStore();
+  const { data: alerts, isLoading, error, refetch } = useAlerts();
   const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    fetchAlerts();
-  }, [fetchAlerts]);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await fetchAlerts();
+    await refetch();
     setRefreshing(false);
-  }, [fetchAlerts]);
+  }, [refetch]);
 
   const renderItem = useCallback(({ item }: { item: Alert }) => (
     <AlertItem alert={item} />
@@ -25,14 +21,30 @@ export default function AlertFeedScreen() {
 
   const keyExtractor = useCallback((item: Alert) => item.id, []);
 
-  const activeAlerts = alerts.filter((a) => !a.resolved);
-  const resolvedAlerts = alerts.filter((a) => a.resolved);
+  const activeAlerts = alerts?.filter((a) => !a.resolved) || [];
+  const resolvedAlerts = alerts?.filter((a) => a.resolved) || [];
 
-  if (isLoading && alerts.length === 0) {
+  if (isLoading && !alerts) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.fire} />
         <Text style={styles.loadingText}>Loading alerts...</Text>
+      </View>
+    );
+  }
+
+  if (error && !alerts) {
+    return (
+      <View style={styles.emptyState}>
+        <View style={styles.emptyIconWrap}>
+          <View style={styles.emptyIconInner}>
+            <Text style={styles.emptyIcon}>◇</Text>
+          </View>
+        </View>
+        <Text style={styles.emptyText}>No Connection</Text>
+        <Text style={styles.emptySubtext}>
+          Unable to retrieve alerts. Please check your internet connection and try again.
+        </Text>
       </View>
     );
   }
@@ -48,20 +60,22 @@ export default function AlertFeedScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.fire} />
         }
         ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <View style={styles.emptyIconWrap}>
-              <View style={styles.emptyIconInner}>
-                <Text style={styles.emptyIcon}>◇</Text>
+          activeAlerts.length === 0 && resolvedAlerts.length === 0 ? (
+            <View style={styles.emptyState}>
+              <View style={styles.emptyIconWrap}>
+                <View style={styles.emptyIconInner}>
+                  <Text style={styles.emptyIcon}>◇</Text>
+                </View>
               </View>
+              <Text style={styles.emptyText}>All clear</Text>
+              <Text style={styles.emptySubtext}>
+                Fire detection alerts will appear here.{'\n'}The network is monitoring 24/7.
+              </Text>
             </View>
-            <Text style={styles.emptyText}>All clear</Text>
-            <Text style={styles.emptySubtext}>
-              Fire detection alerts will appear here.{'\n'}The network is monitoring 24/7.
-            </Text>
-          </View>
+          ) : null
         }
         ListHeaderComponent={
-          alerts.length > 0 ? (
+          alerts && alerts.length > 0 ? (
             <View style={styles.summaryCard}>
               <View style={styles.summaryRow}>
                 <View style={styles.summaryItem}>

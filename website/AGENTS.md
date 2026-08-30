@@ -10,7 +10,7 @@ Manage the background server with `astro dev stop`, `astro dev status`, and `ast
 
 ## Images
 
-The main text model (deepseek-v4-flash) cannot see images. When the user attaches or references an image that needs inspection, delegate to the `vision` subagent via the task tool (model: antseed/gemini-3-1-pro-preview) instead of reading the image yourself.
+The main text model (deepseek-v4-flash) cannot see images. When the user attaches or references an image that needs inspection, delegate to the `vision` subagent via the task tool (model: antseed/gemini-3.1-pro-preview) instead of reading the image yourself.
 
 ## Documentation
 

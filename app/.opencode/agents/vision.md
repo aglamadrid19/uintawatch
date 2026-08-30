@@ -1,7 +1,7 @@
 ---
 description: Inspects and interprets image files (screenshots, mockups, diagrams) using the gemini vision model. Use whenever an image needs to be analyzed, described, or reviewed and the main text model cannot see it.
 mode: subagent
-model: gemini-2.5-flash
+model: antseed/gemini-3.1-pro-preview
 permission:
   read: allow
   edit: deny

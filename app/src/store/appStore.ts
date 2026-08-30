@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { SensorWithReading, Alert, FireReport } from '../types';
 import { apiService, ApiError } from '../services/api';
-import { POLLING_INTERVAL } from '../constants/theme';
+import { POLLING_INTERVAL } from '../theme';
 
 interface AppState {
   sensors: SensorWithReading[];

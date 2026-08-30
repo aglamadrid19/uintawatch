@@ -4,7 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import { useLocalSearchParams, Stack } from "expo-router";
 import { apiService } from "../../src/services/api";
 import { SensorWithReading, Reading } from "../../src/types";
-import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../../src/constants/theme";
+import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../../src/theme";
 
 const { width } = Dimensions.get("window");
 
@@ -67,6 +67,10 @@ export default function SensorDetailScreen() {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
+  function extractReadingData(reading: Reading): string {
+    return `${formatTime(new Date(reading.timestamp))}, ${reading.tempC.toFixed(1)}°C, ${reading.humidityPct.toFixed(0)}%, ${reading.voc.toFixed(0)} VOC, ${reading.rssi} dBm`;
+  }
+
   return (
     <>
       <Stack.Screen options={{ title: sensor.name }} />
@@ -86,15 +90,15 @@ export default function SensorDetailScreen() {
           <View style={styles.header}>
             <View style={styles.headerTop}>
               <View style={styles.titleArea}>
-                <Text style={styles.name}>{sensor.name}</Text>
+                <Text style={styles.name} selectable accessibilityLabel={`${sensor.name} sensor, ${sensor.status} status`}>{sensor.name}</Text>
                 <Text style={styles.id}>{sensor.id}</Text>
               </View>
-              <View style={[styles.statusBadge, { backgroundColor: statusColor + "18" }]}>
+              <View style={[styles.statusBadge, { backgroundColor: statusColor + "18" }]} accessibilityLabel={`${sensor.name} sensor, ${sensor.status} status`}>
                 <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
                 <Text style={[styles.statusText, { color: statusColor }]}>{sensor.status}</Text>
               </View>
             </View>
-            <Text style={styles.lastSeen}>
+              <Text style={styles.lastSeen} selectable>
               Last reading {formatRelativeTime(new Date(sensor.lastSeen))}
             </Text>
           </View>
@@ -104,28 +108,28 @@ export default function SensorDetailScreen() {
               <Text style={styles.sectionTitle}>Current Readings</Text>
               <View style={styles.readingsGrid}>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Temperature</Text>
-                  <Text style={styles.readingValue}>{reading.tempC.toFixed(1)}°C</Text>
+                  <Text style={styles.readingLabel} selectable>Temperature</Text>
+                  <Text style={styles.readingValue} selectable>{reading.tempC.toFixed(1)}°C</Text>
                 </View>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Humidity</Text>
-                  <Text style={styles.readingValue}>{reading.humidityPct.toFixed(0)}%</Text>
+                  <Text style={styles.readingLabel} selectable>Humidity</Text>
+                  <Text style={styles.readingValue} selectable>{reading.humidityPct.toFixed(0)}%</Text>
                 </View>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Pressure</Text>
-                  <Text style={styles.readingValue}>{reading.pressureHPa.toFixed(0)} hPa</Text>
+                  <Text style={styles.readingLabel} selectable>Pressure</Text>
+                  <Text style={styles.readingValue} selectable>{reading.pressureHPa.toFixed(0)} hPa</Text>
                 </View>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Air Quality</Text>
-                  <Text style={styles.readingValue}>{reading.voc.toFixed(0)} VOC</Text>
+                  <Text style={styles.readingLabel} selectable>Air Quality</Text>
+                  <Text style={styles.readingValue} selectable>{reading.voc.toFixed(0)} VOC</Text>
                 </View>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Battery</Text>
-                  <Text style={styles.readingValue}>{(reading.batteryMv / 1000).toFixed(2)}V</Text>
+                  <Text style={styles.readingLabel} selectable>Battery</Text>
+                  <Text style={styles.readingValue} selectable>{(reading.batteryMv / 1000).toFixed(2)}V</Text>
                 </View>
                 <View style={styles.readingCard}>
-                  <Text style={styles.readingLabel}>Signal</Text>
-                  <Text style={styles.readingValue}>{reading.rssi} dBm</Text>
+                  <Text style={styles.readingLabel} selectable>Signal</Text>
+                  <Text style={styles.readingValue} selectable>{reading.rssi} dBm</Text>
                 </View>
               </View>
             </>
@@ -156,16 +160,22 @@ export default function SensorDetailScreen() {
 
           {last24h.length > 0 && (
             <>
-              <Text style={styles.sectionTitle}>24h History</Text>
-              <View style={styles.historyCard}>
+              <Text style={styles.sectionTitle} selectable>24h History</Text>
+              <View style={styles.historyCard} accessible={true} accessibilityRole="list">
                 {last24h.slice(-10).reverse().map((r, i) => (
                   <View
                     key={i}
-                    style={[styles.historyRow, i < Math.min(last24h.length, 10) - 1 && styles.historyRowBorder]}
+                    accessible={true}
+                    accessibilityRole="text"
+                    accessibilityLabel={`${extractReadingData(r)}`}
+                    style={[
+                      styles.historyRow,
+                      i < Math.min(last24h.length, 10) - 1 && styles.historyRowBorder,
+                    ]}
                   >
-                    <Text style={styles.historyTime}>{formatTime(new Date(r.timestamp))}</Text>
+                    <Text style={styles.historyTime} selectable>{formatTime(new Date(r.timestamp))}</Text>
                     <View style={styles.historyCapsule}>
-                      <Text style={styles.historyTemp}>{r.tempC.toFixed(1)}°C</Text>
+                      <Text style={styles.historyTemp} selectable>{r.tempC.toFixed(1)}°C</Text>
                     </View>
                     <View style={styles.historyBar}>
                       <View
@@ -179,7 +189,7 @@ export default function SensorDetailScreen() {
                         ]}
                       />
                     </View>
-                    <Text style={styles.historyHumidity}>{r.humidityPct.toFixed(0)}%</Text>
+                    <Text style={styles.historyHumidity} selectable>{r.humidityPct.toFixed(0)}%</Text>
                   </View>
                 ))}
               </View>
@@ -215,7 +225,7 @@ const styles = StyleSheet.create({
   map: { flex: 1 },
   content: {
     padding: spacing.lg,
-    paddingBottom: spacing.xxxl,
+    paddingBottom: spacing.xxl + spacing.md,
   },
   header: {
     marginBottom: spacing.xl,

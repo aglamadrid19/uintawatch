@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { Platform, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors, spacing, radius, shadows } from "../../src/constants/theme";
+import { colors, spacing, radius, shadows } from "../../src/theme";
 
 function TabIcon({ name, focused }: { name: string; focused: boolean }) {
   const iconMap: Record<string, React.ComponentProps<typeof Ionicons>["name"]> = {

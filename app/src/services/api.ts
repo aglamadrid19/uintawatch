@@ -6,7 +6,7 @@ import {
   Alert,
   CreateReportPayload,
 } from '../types';
-import { API_BASE_URL } from '../constants/theme';
+import { API_BASE_URL } from '../theme';
 
 export class ApiError extends Error {
   constructor(

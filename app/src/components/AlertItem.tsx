@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { Alert } from "../types";
-import { colors, spacing, radius, shadows } from "../constants/theme";
+import { colors, spacing, radius, shadows } from "../theme";
 
 interface AlertItemProps {
   alert: Alert;
@@ -37,6 +37,11 @@ export const AlertItem: React.FC<AlertItemProps> = ({ alert, onPress }) => {
 
   return (
     <TouchableOpacity
+      accessible={true}
+      accessibilityRole={alert.resolved ? "summary" : "alert"}
+      accessibilityLabel={`${severity.label}, ${formatRelativeTime(new Date(alert.triggeredAt))}, ${alert.message.substring(0, 50)}${alert.message.length > 50 ? '...' : ''}`}
+      accessibilityState={{ disabled: alert.resolved }}
+      accessibilityHint={alert.resolved ? "Tap to expand" : "Tap to expand or collapse"}
       style={[styles.container, !alert.resolved && { backgroundColor: severity.glow }]}
       onPress={handlePress}
       activeOpacity={0.7}
@@ -52,28 +57,29 @@ export const AlertItem: React.FC<AlertItemProps> = ({ alert, onPress }) => {
           <View style={styles.headerRight}>
             {alert.resolved && (
               <View style={styles.resolvedBadge}>
-                <Text style={styles.resolvedText}>Resolved</Text>
+                <Text style={styles.resolvedText} selectable>Resolved</Text>
               </View>
             )}
-            <Text style={styles.time}>{formatRelativeTime(new Date(alert.triggeredAt))}</Text>
+            <Text style={styles.time} selectable>{formatRelativeTime(new Date(alert.triggeredAt))}</Text>
           </View>
         </View>
 
         <Text
           style={styles.message}
           numberOfLines={expanded ? undefined : 2}
+          selectable={true}
         >
           {alert.message}
         </Text>
 
         {truncated && (
-          <Text style={styles.expandHint}>Tap to expand</Text>
+          <Text style={styles.expandHint} selectable={true}>Tap to expand</Text>
         )}
 
         <View style={styles.footer}>
-          <Text style={styles.source}>{alert.type.replace("_", " ")}</Text>
+          <Text style={styles.source} selectable={true}>{alert.type.replace("_", " ")}</Text>
           {alert.sensorId && (
-            <Text style={styles.sensorId}>{alert.sensorId}</Text>
+            <Text style={styles.sensorId} selectable={true}>{alert.sensorId}</Text>
           )}
         </View>
       </View>
