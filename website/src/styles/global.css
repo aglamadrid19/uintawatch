@@ -1,0 +1,269 @@
+@import "tailwindcss";
+
+/* Hallmark · macrostructure: stat-led workbench · genre: editorial · theme: custom-editorial
+ * contrast: pass (40-41)
+ * mobile: pass (34, 49, 50-57)
+ */
+
+@theme {
+  /* Paper tones — warm off-white editorial */
+  --color-paper: #FAF8F5;
+  --color-paper-2: #F0EDE6;
+  --color-paper-3: #E5E0D5;
+
+  /* Ink — deep charcoal */
+  --color-ink: #1A1A1A;
+  --color-ink-soft: #3A3A3A;
+  --color-ink-muted: #6B6B6B;
+
+  /* Accent — terracotta/rust (UTAH FIRE) */
+  --color-accent: #C45A3B;
+  --color-accent-dark: #A34830;
+  --color-accent-light: #D4684D;
+
+  /* Accent ink (for text on accent surfaces) */
+  --color-accent-ink: #FAF8F5;
+
+  /* Supporting */
+  --color-sky: #1E6091;
+  --color-sky-dark: #154A75;
+  --color-success: #2D7A4D;
+  --color-warning: #9B4D2A;
+
+  /* Focus ring */
+  --color-focus: #C45A3B;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    line-height: 1.6;
+  }
+
+  /* Typography — no italic headings per Hallmark gate 38a */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400; /* Serif so no need for bold weight */
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Display sizes */
+  .text-display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+  }
+
+  .text-display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .text-display-md {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  /* Eyebrow label — all caps, tracked */
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+  }
+
+  /* Prose container */
+  .prose {
+    max-width: 65ch;
+    line-height: 1.7;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  /* Focus states */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-paper-2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-muted);
+    border-radius: 3px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Primary CTA — terracotta fill */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: background-color 150ms ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-accent-dark);
+  }
+
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  /* Secondary — ink outline */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background-color: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border: 1px solid var(--color-ink);
+    border-radius: 2px;
+    transition: background-color 150ms ease, color 150ms ease;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn-secondary:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .btn-secondary:active {
+    transform: translateY(1px);
+  }
+
+  /* Ghost — text only */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    background: transparent;
+    color: var(--color-ink-soft);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: color 150ms ease, border-color 150ms ease;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-ink);
+  }
+
+  /* Card — editorial surface */
+  .card {
+    background-color: var(--color-paper-2);
+    border: 1px solid var(--color-paper-3);
+    border-radius: 2px;
+    padding: 2rem;
+  }
+
+  /* Section spacing */
+  .section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .section-tight {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .section-loose {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  /* Grid container */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Stat number */
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  /* Abstract decorative line */
+  .rule {
+    width: 3rem;
+    height: 2px;
+    background-color: var(--color-accent);
+  }
+}

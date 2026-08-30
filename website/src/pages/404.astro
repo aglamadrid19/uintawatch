@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-ink rounded">Skip to content</a>
+  <main id="main-content" class="min-h-[80vh] flex items-center bg-paper">
+    <div class="container py-16">
+      <div class="max-w-xl">
+        <p class="eyebrow mb-6">404 Error</p>
+        <h1 class="text-display-xl text-ink mb-6">404</h1>
+        <h2 class="text-display-md text-ink mb-4">
+          This ridge is quiet.
+        </h2>
+        <p class="prose text-ink-soft mb-8">
+          The page you're looking for doesn't exist, or may have moved. Let's get you back to safety.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/" class="btn-primary justify-center">Return Home</a>
+          <a href="/about" class="btn-secondary justify-center">Learn About Us</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

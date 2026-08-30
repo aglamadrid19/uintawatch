@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "tools": {
+    "websearch": false,
+    "webfetch": false
+  },
+  "permission": {
+    "web_search": "allow",
+    "web_fetch": "allow",
+    "web_screenshot": "allow"
+  },
+  "mcp": {
+    "canva": {
+      "type": "remote",
+      "url": "https://mcp.canva.com/mcp",
+      "enabled": true
+    }
+  }
+}

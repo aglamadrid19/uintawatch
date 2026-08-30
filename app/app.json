@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "Uinta Watch",
+    "slug": "uintawatch",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.uintawatch.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Uinta Watch needs your location to show nearby sensors and submit fire reports.",
+        "NSCameraUsageDescription": "Uinta Watch needs camera access to take photos of fire sightings.",
+        "NSPhotoLibraryUsageDescription": "Uinta Watch needs photo library access to attach images to fire reports."
+      },
+      "appleTeamId": ""
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#C45A3B",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+      },
+      "package": "org.uintawatch.app",
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Uinta Watch needs your location to show nearby sensors and submit fire reports."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Uinta Watch needs photo library access to attach images to fire reports.",
+          "cameraPermission": "Uinta Watch needs camera access to take photos of fire sightings."
+        }
+      ]
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "uintawatch"
+      }
+    },
+    "scheme": "uintawatch"
+  }
+}

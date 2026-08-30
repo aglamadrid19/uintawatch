@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://uintawatch.com/sitemap-index.xml
