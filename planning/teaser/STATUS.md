@@ -43,7 +43,7 @@ Session was compacted; this file is the handoff. Working dir: `/Volumes/CrucialX
 
 ## STATUS: COMPLETE (Sept 25, 2026)
 All TODOs below were finished:
-1. ✅ iPhone bezel (`planning/teaser/bezel/{bezel,shadow}.png`, builder `build_bezel.py`) — overlaid on all phone segments; corners covered by the ring; Dynamic Island comes from the footage itself.
+1. ✅ iPhone bezel (`planning/teaser/bezel/{bezel,shadow}.png`, builder `build_bezel.py`) — overlaid on all phone segments; corners covered by the ring; Dynamic Island comes from the footage itself. **Layering (fix from round 2): shadow, footage, and ring are THREE separate overlays — never pre-composite shadow+bezel into one PNG, or the ring inherits the shadow's offset and the screen pokes out of the bezel.** Geometry: canvas 1920x1080 → shadow at (1204,−28) → footage 432x940 at (1312,70) → ring 476x984 at (1290,48); hole (432x940 @ +22,+22) is exactly footage-sized, so edges are flush.
 2. ✅ Fluid drawer: `A4-sheet-spring.mov` — expand/collapse via the app's native spring (tap "View all sensors" / "Collapse sensor list"), plus a list scroll. Old A2/A3 superseded.
 3. ✅ Agent money shot: `D4-agent-stream.mov` — question + dots (0–13.3s), reply streams on camera (13.3–15.5s), settled by 17.8s. (D5's recorder died early; D4 delivered.)
 4. ✅ Final render: `planning/teaser/uintawatch-teaser.mp4` — 55.7s, 1920x1080@30, h264 crf18, silent, ~4.5MB. Full contact-sheet + title/end card QA PASS.
@@ -55,6 +55,13 @@ All TODOs below were finished:
 2. **Re-record drawer fluidly (user-requested).** From Network rest: slow handle drag `./qa swipe 201 495 201 380 1.3` (or staged: several 0.2s small swipes in sequence), settle ~1.5s; optionally add a horizontal carousel swipe `./qa swipe 300 611 80 611 0.9`. Replace `A2-sheet-expand.mov`.
 3. **Agent money shot.** Record ~90s (D4): relaunch, Agent tab, tap input, type "What should we do about the Burner Ridge alert?", Send, wait. Trim later: question+dots ~2s → cut → streaming reply. Check `teaser-d3-agent-stream.png` first; if the stream never got caught, re-record longer.
 4. **Update `build_video.py`**: bezel compositing + new A3/D4 clips, re-render, then full contact-sheet QA (`fps=1/3,scale=300:169,tile=6x3`).
+
+## Round 2 fixes (user QA feedback, all verified)
+- **Bezel offset**: screen was sticking out of the ring — caused by pre-compositing shadow+bezel into one overlay image (ring inherited the shadow's position). Fixed with three separate overlays; footage x 1310→1312 for exact hole fit.
+- **Title/end cards**: logo enlarged (title 340px, end 240px), layouts rebalanced in `build_cards.py`.
+- **Report transition**: `report-b` slowed 1.18x (`setpts=PTS*1.18`) and per-join fades added — joins 8–11 use 0.7s (report flow + website card), others 0.4s.
+- **Website segment redesigned**: no more full-bleed screenshot text collision. Now a 1000x630 rounded browser card at (880,240) with `bezel/card{shadow,frame}.png` + Ken Burns zoompan of `cards/webcrop.png` (crop (1085,81,1891,589) of `frames/web/home.png` — avoid the site's nav/logo/headline). Sub-caption shortened to fit left of the card.
+- **GitHub QA**: pushed to `main` (raw URL serves 200, sha256 identical to local, video loads/seeks in browser at 1920x1080).
 5. **Article final pass**: re-read draft, tighten, confirm every stat matches README/sources, drop in final video file reference (X articles take video URLs — user will upload; leave a clean placeholder line), one more antislop read.
 6. **Deliverables summary for user**: article text (paste-ready), teaser mp4 path, article embed stills list.
 7. **Hygiene** (after all captures): restore units Metric (°C) + Standard map in app Settings; `xcrun simctl status_bar $UDID clear`; the submitted test report stays in the sim's SecureStore (fine).
