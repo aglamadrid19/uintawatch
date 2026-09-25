@@ -57,18 +57,17 @@ def color_seg(d, cards_with_st):
     chain += f";[b{k}{chr(97+n)}]fps=30,format=yuv420p,setsar=1[s{k}]"
     segs_info.append((chain, d))
 
-def webcard_seg(d, card, text_st=0.3, zoom=0.0008):
-    """Full site in a centered browser card (chrome bar + URL pill).
+def webcard_seg(d, card, text_st=0.3):
+    """Full site in a centered browser card (chrome bar + URL pill), static (no zoom).
     Card: content 1100x619 at (410,287), chrome 1100x52 at (410,235),
     frame ring 1108x679 at (406,231), shadow 1280x851 centered at (320,145)."""
     k = len(segs_info)
-    vi = add_input(f"-i {CARDS}/webfull.png")          # 1100x619, cream-rounded corners
+    vi = add_input(f"-loop 1 -t {d} -i {CARDS}/webfull.png")   # 1100x619, cream-rounded corners
     ch_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browser-chrome.png")
     sh_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browsershadow.png")
     fr_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browser-frame.png")
     tx_i = add_input(f"-loop 1 -t {d} -i {CARDS}/{card}.png")
-    chain = (f"[{vi}:v]zoompan=z='min(1.0+{zoom}*on,1.08)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2'"
-             f":d={int(d*30)+1}:s=1100x619:fps=30[p{k}];"
+    chain = (f"[{vi}:v]fps=30[p{k}];"
              f"color=c={CREAM}:s=1920x1080:d={d}[b{k}];"
              f"[b{k}][{sh_i}:v]overlay=320:145[osh{k}];"
              f"[osh{k}][p{k}]overlay=410:287[od{k}];"

@@ -101,8 +101,8 @@ CARD_X, CARD_Y = 410, 235           # card top-left on canvas
 def webcard():
     home = Image.open(f"{BASE}/frames/web/home.png").convert("RGB")
     dc0 = ImageDraw.Draw(home)
-    # paint out the floating widget in the bottom-right corner (half-cut by the card frame)
-    dc0.rounded_rectangle([1660, 900, 1920, 1080], radius=20, fill=(250, 248, 245))
+    # paint out the floating widget in the bottom-right corner (matches the stats-band bg)
+    dc0.rounded_rectangle([1660, 900, 1920, 1080], radius=20, fill=(240, 237, 230))
     full = home.resize((CW, CH_CONTENT), Image.LANCZOS)
     # round bottom corners via mask composited over opaque cream (zoompan drops alpha)
     r = 18
