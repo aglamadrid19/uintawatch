@@ -1,0 +1,5 @@
+tap-label: '40 819 Network, tab, 1 of 6' -> tap 40 819
+tap-label: '201 819 Agent, tab, 4 of 6' -> tap 201 819
+tap-label: '175 756 Message to the Uinta Agent Ask the Uinta Agent…' -> tap 175 756
+tap-label: '356 756 Send message' -> tap 356 756
+done

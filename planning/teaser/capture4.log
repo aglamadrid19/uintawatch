@@ -1,0 +1,16 @@
+tap-label: '40 819 Network, tab, 1 of 6' -> tap 40 819
+rec start A4-sheet-spring pid=39074 00:43:47
+tap-label: no element matching 'Expand sensor list'
+tap-label: '334 521 View all sensors' -> tap 334 521
+tap-label: '332 293 Collapse sensor list' -> tap 332 293
+rec end 00:43:58
+rec start D5-agent-stream pid=39222 00:44:12
+tap-label: '201 819 Agent, tab, 4 of 6' -> tap 201 819
+tap-label: '175 756 Message to the Uinta Agent Ask the Uinta Agent…' -> tap 175 756
+tap-label: '356 756 Send message' -> tap 356 756
+poll 1 00:44:26 stable=0 alive=1
+poll 2 00:44:33 stable=1 alive=1
+poll 3 00:44:40 stable=0 alive=1
+poll 4 00:44:47 stable=1 alive=1
+rec end 00:44:57
+done

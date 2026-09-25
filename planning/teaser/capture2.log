@@ -1,0 +1,323 @@
+rec start A2-sheet-expand
+GenericElement ( -82.3, 228.0)  Map pin
+GenericElement ( -61.0,   4.7)  Map pin
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+GenericElement (  46.7, -55.0)  Map pin
+StaticText   (  74.5, 286.7)  Sensors
+StaticText   (  74.5, 304.8)  8 nodes · 6 online
+GenericElement (  78.3, 305.3)  Map pin
+GenericElement (  78.3, 305.3)  Map pin
+StaticText   (  79.3, 155.8)  6 online
+Link         (  84.5, 770.6)  Legal
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+GenericElement ( 127.0, 272.0)  Map pin
+GenericElement ( 127.0, 272.0)  Map pin
+Button       ( 171.3, 156.0)  1 active alert, view alert feed
+GenericElement ( 181.7, 152.0)  Map pin
+GenericElement ( 181.7, 152.0)  Map pin
+GenericElement ( 191.3, 228.0)  Map pin
+GenericElement ( 191.3, 228.0)  Map pin
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0,  98.0)  1 active alert, view alert feed
+Button       ( 201.0, 351.7)  HFENS-Burner-Ridge-01, 115.3°F, alert, view details
+Button       ( 201.0, 411.7)  HFENS-Uintah-01, 84.6°F, online, view details
+Button       ( 201.0, 471.7)  HFENS-Uintah-02, 84.4°F, online, view details
+Button       ( 201.0, 531.7)  HFENS-Ouray-01, 86.9°F, online, view details
+Button       ( 201.0, 591.7)  HFENS-Vernal-01, 100.4°F, online, view details
+Button       ( 201.0, 651.7)  HFENS-Jensen-01, 86.5°F, online, view details
+Button       ( 201.0, 711.7)  HFENS-Ashley-01, 83.8°F, online, view details
+Button       ( 201.0, 737.0)  Report smoke or fire
+Button       ( 201.0, 771.7)  HFENS-Fort-Duchene-01, 83.1°F, offline, view details
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+Image        ( 201.0, 393.0)  Map
+StaticText   ( 201.0, 772.5)  Maps data © Apple
+GenericElement ( 214.7, 102.3)  Map pin
+GenericElement ( 214.7, 102.3)  Map pin
+GenericElement ( 250.3, 155.3)  Map pin
+GenericElement ( 250.3, 155.3)  Map pin
+GenericElement ( 261.7, 383.3)  Map pin
+GenericElement ( 261.7, 383.3)  Map pin
+GenericElement ( 276.7, 348.0)  Map pin
+GenericElement ( 276.7, 348.0)  Map pin
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+StaticText   ( 281.5, 155.8)  8 nodes
+GenericElement ( 290.0, 414.0)  Map pin
+GenericElement ( 290.0, 414.0)  Map pin
+Button       ( 332.0, 293.7)  Collapse sensor list
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+rec end A2-sheet-expand
+rec start B-node-detail
+tap-label: '164 611 HFENS-Burner-Ridge-01, 115.3°F, alert, view details' -> tap 164 611
+Button       (  38.0,  84.0)  Back
+StaticText   (  46.0, 469.5)  
+StaticText   (  53.5,1736.3)  12:33 AM, 112.28°F
+StaticText   (  55.5,1313.8)  
+StaticText   (  55.5,1362.5)  
+StaticText   (  55.5,1411.2)  
+StaticText   (  55.5,1459.8)  
+StaticText   (  66.3,1736.3)  1:33 AM, 113.18°F
+StaticText   (  72.0, 994.7)  
+StaticText   (  79.2,1736.3)  2:33 AM, 108.86°F
+GenericElement (  80.2,1594.3)  Chart Temp
+GenericElement (  82.3,1642.3)  Chart Signal
+Link         (  84.5, 300.6)  Legal
+StaticText   (  84.5,1806.8)  107.8°F low
+StaticText   (  92.0,1736.3)  3:33 AM, 108.5°F
+StaticText   ( 104.8,1736.3)  4:33 AM, 111.02°F
+StaticText   ( 110.3, 630.5)  132.1°F
+StaticText   ( 110.3, 730.2)  1005 hPa
+StaticText   ( 110.3, 806.0)  Battery
+StaticText   ( 110.3, 829.8)  3.69V
+StaticText   ( 110.5, 606.7)  Temperature
+StaticText   ( 110.5, 706.3)  Pressure
+StaticText   ( 110.5, 853.0)  Low — solar needed
+StaticText   ( 110.5,1114.5)  LOCATION
+StaticText   ( 110.5,1172.3)  40.198700
+StaticText   ( 110.5,1192.3)  -109.412300
+StaticText   ( 117.7,1736.3)  5:33 AM, 108.32°F
+StaticText   ( 130.5,1736.3)  6:33 AM, 107.78°F
+StaticText   ( 143.3,1736.3)  7:33 AM, 110.3°F
+GenericElement ( 151.8,1642.3)  Chart Wind
+StaticText   ( 154.5, 469.7)  D — BME688 + PM2.5 + CO + wind
+StaticText   ( 154.7, 368.7)  HFENS-Burner-Ridge-01 sensor, alert status
+StaticText   ( 154.7, 408.3)  sensor-008
+StaticText   ( 156.2,1736.3)  8:33 AM, 109.76°F
+GenericElement ( 159.0,1594.3)  Chart Humidity
+StaticText   ( 165.3,1362.5)  Gateway
+StaticText   ( 165.3,1411.2)  Firmware
+StaticText   ( 169.0,1736.3)  9:33 AM, 110.66°F
+StaticText   ( 181.8,1736.3)  10:33 AM, 112.46000000000001°F
+StaticText   ( 192.8,1459.8)  Uptime
+StaticText   ( 194.7,1736.3)  11:33 AM, 111.74°F
+StaticText   ( 197.5,1806.8)  now 140.4°F
+Heading      ( 200.8,  84.0)  HFENS-Burner-Ridge-01
+Application  ( 201.0, 437.0)  Uinta Watch
+GenericElement ( 201.0, 215.8)  Map pin
+GenericElement ( 201.0, 215.8)  Map pin
+Image        ( 201.0, 216.0)  Map
+StaticText   ( 201.0, 435.2)  Last reading just now
+StaticText   ( 201.0, 552.2)  CURRENT READINGS
+StaticText   ( 201.0, 922.8)  WIND AT NODE
+StaticText   ( 201.0,1266.2)  MESH HEALTH
+StaticText   ( 201.0,1524.5)  24H CHARTS
+StaticText   ( 204.5,1313.8)  Hops to gateway
+StaticText   ( 207.5,1736.3)  12:33 PM, 114.61999999999999°F
+StaticText   ( 220.3,1736.3)  1:33 PM, 116.6°F
+StaticText   ( 233.2,1736.3)  2:33 PM, 114.26°F
+GenericElement ( 234.8,1594.3)  Chart VOC
+StaticText   ( 237.0, 986.7)  15.4 mph
+StaticText   ( 237.0,1010.2)  from WNW (291°)
+StaticText   ( 246.0,1736.3)  3:33 PM, 116.41999999999999°F
+StaticText   ( 258.8,1736.3)  4:33 PM, 119.11999999999999°F
+StaticText   ( 271.7,1736.3)  5:33 PM, 116.24°F
+StaticText   ( 284.5,1736.3)  6:33 PM, 116.06°F
+StaticText   ( 291.3, 606.7)  Humidity
+StaticText   ( 291.3, 829.8)  -81 dBm
+StaticText   ( 291.5, 630.5)  9%
+StaticText   ( 291.5, 706.3)  Air Quality
+StaticText   ( 291.5, 730.2)  626 VOC
+StaticText   ( 291.5, 806.0)  Signal
+StaticText   ( 291.5, 853.0)  Moderate
+StaticText   ( 291.5,1114.5)  NETWORK
+StaticText   ( 291.5,1169.0)  Status
+StaticText   ( 291.5,1190.5)  Alert
+StaticText   ( 297.2,1736.3)  7:33 PM, 117.86°F
+GenericElement ( 305.8,1594.3)  Chart Battery
+StaticText   ( 310.0,1736.3)  8:33 PM, 122.72°F
+StaticText   ( 310.8,1362.3)  GW-Duchesne
+StaticText   ( 310.8,1411.0)  uw-fw 0.3.2
+StaticText   ( 314.2,1806.8)  140.4°F high
+StaticText   ( 323.0,1736.3)  9:33 PM, 129.2°F
+StaticText   ( 335.8,1736.3)  10:33 PM, 135.86°F
+StaticText   ( 338.3,1459.7)  64 h
+StaticText   ( 345.7, 355.2)  Alert
+StaticText   ( 348.7,1736.3)  11:33 PM, 140.36°F
+StaticText   ( 350.0,1313.7)  2
+tap-label: '38 84 Back' -> tap 38 84
+rec end B-node-detail
+rec start C-alerts
+tap-label: '120 819 Alerts, tab, 2 of 6' -> tap 120 819
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+StaticText   (  98.5, 240.7)  2
+StaticText   (  98.7, 273.3)  Active
+StaticText   ( 114.0, 141.7)  Sensor Alerts
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+StaticText   ( 200.8, 240.7)  2
+StaticText   ( 200.8, 273.3)  Resolved
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+Heading      ( 201.0,  81.3)  Fire Alerts
+StaticText   ( 201.0, 403.0)  Critical, 6m ago, Sustained temperature rise with VOC spike at HFENS...
+StaticText   ( 201.0, 569.0)  Elevated, 8m ago, VOC and CO rising at HFENS-Vernal-01 with north-we...
+StaticText   ( 201.0, 735.8)  Warning, 1h ago, Humidity below 30% at HFENS-Uintah-02 for two hour...
+StaticText   ( 201.0, 903.5)  Elevated, 2h ago, Community report: visible smoke column near US-40 ...
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+StaticText   ( 288.0, 141.7)  Community Reports
+StaticText   ( 303.2, 240.7)  4
+StaticText   ( 303.2, 273.3)  Total
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+tap-label: no element matching 'Smoke detected'
+tap-label: '201 81 Fire Alerts' -> tap 201 81
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+StaticText   (  98.5, 240.7)  2
+StaticText   (  98.7, 273.3)  Active
+StaticText   ( 114.0, 141.7)  Sensor Alerts
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+StaticText   ( 200.8, 240.7)  2
+StaticText   ( 200.8, 273.3)  Resolved
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+Heading      ( 201.0,  81.3)  Fire Alerts
+StaticText   ( 201.0, 403.0)  Critical, 6m ago, Sustained temperature rise with VOC spike at HFENS...
+StaticText   ( 201.0, 569.0)  Elevated, 8m ago, VOC and CO rising at HFENS-Vernal-01 with north-we...
+StaticText   ( 201.0, 735.8)  Warning, 1h ago, Humidity below 30% at HFENS-Uintah-02 for two hour...
+StaticText   ( 201.0, 903.5)  Elevated, 2h ago, Community report: visible smoke column near US-40 ...
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+StaticText   ( 288.0, 141.7)  Community Reports
+StaticText   ( 303.2, 240.7)  4
+StaticText   ( 303.2, 273.3)  Total
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+tap-label: no element matching '^Back'
+rec end C-alerts
+rec start D-agent
+tap-label: '201 819 Agent, tab, 4 of 6' -> tap 201 819
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+GenericElement (  50.0,  96.0)  Uinta Watch logo
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+TextArea     ( 175.0, 756.0)  Message to the Uinta Agent Ask the Uinta Agent…
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 486.5)  Ask: What's the fire risk right now?
+Button       ( 201.0, 531.5)  Ask: Which sensors are alerting and why?
+Button       ( 201.0, 576.5)  Ask: Summarize today's network conditions
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+StaticText   ( 201.0, 299.8)  
+StaticText   ( 201.0, 360.0)  Uinta Agent
+StaticText   ( 201.0, 406.0)  Field intelligence for the Uintah Basin sensor mesh — grounded in the live (simulated) net
+StaticText   ( 235.0,  89.0)  Uinta Watch
+StaticText   ( 235.0, 111.7)  Open wildfire sensing lab · Uintah Basin
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+Button       ( 356.0, 756.0)  Send message
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+tap-label: '201 486 Ask: What's the fire risk right now?' -> tap 201 486
+rec end D-agent
+rec start E-report
+tap-label: no element matching '^Report'
+
+CRITICAL alert at Burne
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+GenericElement (  50.0,  96.0)  Uinta Watch logo
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+StaticText   ( 174.5, 284.5)  Fire risk is ELEVATED with a credible active incident developing.
+TextArea     ( 175.0, 756.0)  Message to the Uinta Agent Ask the Uinta Agent…
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+StaticText   ( 235.0,  89.0)  Uinta Watch
+StaticText   ( 235.0, 111.7)  Open wildfire sensing lab · Uintah Basin
+StaticText   ( 259.8,-188.5)  What's the fire risk right now?
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+Button       ( 356.0, 756.0)  Send message
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+tap-label: '259 -188 What's the fire risk right now?' -> tap 259 -188
+tap-label: no element matching 'Submit'
+rec end E-report
+rec start F-lab
+tap-label: '281 819 Lab, tab, 5 of 6' -> tap 281 819
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+GenericElement (  50.0,  96.0)  Uinta Watch logo
+StaticText   ( 105.0, 752.7)  Node config
+StaticText   ( 105.0, 798.5)  A — BME688 only
+StaticText   ( 105.0, 845.8)  B — BME688 + PM
+StaticText   ( 105.0, 899.2)  C — BME688 + PM + CO
+StaticText   ( 105.0, 952.5)  D — C + wind
+StaticText   ( 105.0, 999.8)  E — BME280 (control)
+StaticText   ( 105.0,1137.8)  Meshtastic
+StaticText   ( 105.0,1185.2)  Raw LoRa
+StaticText   ( 105.0,1232.5)  LoRaWAN
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+StaticText   ( 154.0,1820.5)  Networking benchmark planned
+StaticText   ( 166.5,1435.5)  Nodes in build — first burns planned
+StaticText   ( 171.3,1563.8)  Measuring now on open data (NRCan)
+StaticText   ( 177.7,1692.2)  Designing the corroboration experiment
+StaticText   ( 193.0, 752.7)  @25m
+StaticText   ( 193.0, 798.5)  ?
+StaticText   ( 193.0, 845.8)  ?
+StaticText   ( 193.0, 899.2)  ?
+StaticText   ( 193.0, 952.5)  ?
+StaticText   ( 193.0, 999.8)  ?
+StaticText   ( 200.8, 251.8)  The Lab
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+Link         ( 201.0,1323.2)  Full list on the site →
+Link         ( 201.0,1925.5)  About the project
+Link         ( 201.0,1993.2)  Hardware & sensors
+Link         ( 201.0,2060.8)  Get involved
+Link         ( 201.0,2128.0)  Support the lab
+StaticText   ( 201.0, 194.0)  
+StaticText   ( 201.0, 325.5)  WHAT THIS IS
+StaticText   ( 201.0, 429.3)  UintaWatch is an open field lab for low-cost wildfire sensing. We build open sensor nodes,
+StaticText   ( 201.0, 577.8)  Published bar (NRCan 2026, DHS-vendor sensors): 100% detection on fires >100 ha (median 1.
+StaticText   ( 201.0, 688.5)  UintaBench · Detection
+StaticText   ( 201.0, 707.3)  First real numbers land after the first partnered burns (G4)
+StaticText   ( 201.0,1073.2)  UintaBench · Mesh networking
+StaticText   ( 201.0,1092.0)  Through real Uintah Basin terrain
+StaticText   ( 201.0,1305.8)  Open Questions
+StaticText   ( 201.0,1391.3)  Can a ~$100 open node detect nighttime smoldering at 1 km?
+StaticText   ( 201.0,1519.7)  What false-alarm rate does far-field regional smoke cause?
+StaticText   ( 201.0,1648.0)  Can multi-node corroboration beat the published 30% small-fire detection?
+StaticText   ( 201.0,1776.3)  What does the mesh actually deliver through real terrain?
+StaticText   ( 214.0,1137.8)  Range ?
+StaticText   ( 214.0,1185.2)  Range ?
+StaticText   ( 214.0,1232.5)  Range ?
+StaticText   ( 235.0,  89.0)  Uinta Watch
+StaticText   ( 235.0, 111.7)  Open wildfire sensing lab · Uintah Basin
+StaticText   ( 239.0, 752.7)  @50m
+StaticText   ( 239.0, 798.5)  ?
+StaticText   ( 239.0, 845.8)  ?
+StaticText   ( 239.0, 899.2)  ?
+StaticText   ( 239.0, 952.5)  ?
+StaticText   ( 239.0, 999.8)  ?
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+StaticText   ( 285.0, 752.7)  @100m
+StaticText   ( 285.0, 798.5)  ?
+StaticText   ( 285.0, 845.8)  ?
+StaticText   ( 285.0, 899.2)  ?
+StaticText   ( 285.0, 952.5)  ?
+StaticText   ( 285.0, 999.8)  ?
+StaticText   ( 302.0,1137.8)  Delivery ?
+StaticText   ( 302.0,1185.2)  Delivery ?
+StaticText   ( 302.0,1232.5)  Delivery ?
+StaticText   ( 331.0, 752.7)  False/d
+StaticText   ( 331.0, 798.5)  ?
+StaticText   ( 331.0, 845.8)  ?
+StaticText   ( 331.0, 899.2)  ?
+StaticText   ( 331.0, 952.5)  ?
+StaticText   ( 331.0, 999.8)  ?
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+StaticText   ( 377.0, 752.7)  Power
+StaticText   ( 377.0, 798.5)  ?
+StaticText   ( 377.0, 845.8)  ?
+StaticText   ( 377.0, 899.2)  ?
+StaticText   ( 377.0, 952.5)  ?
+StaticText   ( 377.0, 999.8)  ?
+StaticText   ( 390.0,1137.8)  Latency ?
+StaticText   ( 390.0,1185.2)  Latency ?
+StaticText   ( 390.0,1232.5)  Latency ?
+StaticText   ( 423.0, 752.7)  Cost
+StaticText   ( 423.0, 798.5)  $55
+StaticText   ( 423.0, 845.8)  $75
+StaticText   ( 423.0, 899.2)  $95
+StaticText   ( 423.0, 952.5)  $110
+StaticText   ( 423.0, 999.8)  $40
+rec end F-lab
+--- capture2 done ---
+total 2468608
+drwxr-xr-x@ 10 alamadrid  staff         320 Sep 24 23:34 .
+drwxr-xr-x@  4 alamadrid  staff         128 Sep 24 23:20 ..
+-rw-r--r--@  1 alamadrid  staff    33240703 Sep 24 23:21 A-home-pulse.mov
+-rw-r--r--@  1 alamadrid  staff    13780265 Sep 24 23:33 A2-sheet-expand.mov
+-rw-r--r--@  1 alamadrid  staff  1183817808 Sep 24 23:30 B-callout-node.mov
+-rw-r--r--@  1 alamadrid  staff    15245029 Sep 24 23:33 B-node-detail.mov
+-rw-r--r--@  1 alamadrid  staff     1675663 Sep 24 23:33 C-alerts.mov
+-rw-r--r--@  1 alamadrid  staff     2253889 Sep 24 23:33 D-agent.mov
+-rw-r--r--@  1 alamadrid  staff      201652 Sep 24 23:34 E-report.mov
+-rw-r--r--@  1 alamadrid  staff     2834987 Sep 24 23:34 F-lab.mov

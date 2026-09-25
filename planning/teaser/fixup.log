@@ -1,0 +1,49 @@
+tap-label: '201 402 Critical, 6m ago, Sustained temperature rise with VOC spike ' -> tap 201 402
+Button       (  38.0,  84.0)  Back
+StaticText   (  48.0, 590.7)  
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 482.0)  View sensor HFENS-Burner-Ridge-01
+Heading      ( 201.0,  84.0)  Alert detail
+StaticText   ( 201.0, 267.3)  Event
+StaticText   ( 201.0, 341.3)  Sustained temperature rise with VOC spike at HFENS-Burner-Ridge-01, a multi-metric smolder
+StaticText   ( 213.0, 590.7)  Detection logic is under active test in the lab. Sensor alerts are observations, so always
+StaticText   ( 215.0, 172.5)  Critical · sensor
+StaticText   ( 215.0, 190.2)  Sep 24 at 11:33 PM · Active
+tap-label: '201 721 Report smoke or fire' -> tap 201 721
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+Button       ( 120.5, 838.5)  Take photo
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 741.8)  Submit report requires location and description
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+GenericElement ( 201.0, 231.2)  Report fire or smoke
+StaticText   ( 201.0, 399.7)  YOUR LOCATION
+StaticText   ( 201.0, 437.5)  40.322400, -109.608400, GPS active · accurate
+StaticText   ( 201.0, 523.3)  WHAT DID YOU SEE?
+StaticText   ( 201.0, 680.0)  0 characters
+StaticText   ( 201.0, 756.7)  PHOTO (OPTIONAL)
+TextArea     ( 201.0, 605.3)  Describe what you observed Describe the smoke, flames, or any other signs of fire...
+Heading      ( 201.2,  81.3)  Report Sighting
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+Button       ( 281.5, 838.5)  Choose from gallery
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+tap-label: '201 399 YOUR LOCATION' -> tap 201 399
+tap-label: '201 741 Submit report requires location and description' -> tap 201 741
+Button       (  40.2, 819.5)  Network, tab, 1 of 6
+Button       ( 120.5, 819.5)  Alerts, tab, 2 of 6
+Button       ( 120.5, 838.5)  Take photo
+Application  ( 201.0, 437.0)  Uinta Watch
+Button       ( 201.0, 741.8)  Submit report requires location and description
+Button       ( 201.0, 819.5)  Agent, tab, 4 of 6
+GenericElement ( 201.0, 231.2)  Report fire or smoke
+StaticText   ( 201.0, 399.7)  YOUR LOCATION
+StaticText   ( 201.0, 437.5)  40.322400, -109.608400, GPS active · accurate
+StaticText   ( 201.0, 523.3)  WHAT DID YOU SEE?
+StaticText   ( 201.0, 680.0)  0 characters
+StaticText   ( 201.0, 756.7)  PHOTO (OPTIONAL)
+TextArea     ( 201.0, 605.3)  Describe what you observed Describe the smoke, flames, or any other signs of fire...
+Heading      ( 201.2,  81.3)  Report Sighting
+Button       ( 281.5, 819.5)  Lab, tab, 5 of 6
+Button       ( 281.5, 838.5)  Choose from gallery
+Button       ( 361.8, 819.5)  Settings, tab, 6 of 6
+--- fixup done ---
