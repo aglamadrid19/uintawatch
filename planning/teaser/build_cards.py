@@ -53,6 +53,7 @@ left_card("txt-alerts", "ALERTS", "Alerts that explain themselves", "What fired,
 left_card("txt-agent-a", "UINTA AGENT", "Ask the network what it sees")
 left_card("txt-agent-b", None, None, "Grounded in the app data — honest about simulation.")
 left_card("txt-report-a", "COMMUNITY REPORTS", "See smoke? Report it.")
+left_card("txt-report-type", "WHAT DID YOU SEE?", "Type what you see.", "Every report is public and geotagged.")
 left_card("txt-report-b", None, None, "Reports persist offline until the backend exists.")
 left_card("txt-web", "OPEN BY DEFAULT", "Published in public", "uintawatch.com — the public lab notebook")
 

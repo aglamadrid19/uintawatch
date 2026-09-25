@@ -88,8 +88,9 @@ phone_seg("B-node-detail.mov", 1.6, 7.1, "txt-node")
 phone_seg("C2-alert-detail.mov", 1.5, 7.5, "txt-alerts")
 phone_seg("D4-agent-stream.mov", 3.0, 8.0, "txt-agent-a")
 phone_seg("D4-agent-stream.mov", 11.8, 17.8, "txt-agent-b")
-phone_seg("E3-report-submit.mov", 2.8, 5.4, "txt-report-a")
-phone_seg("E3-report-submit.mov", 9.6, 15.5, "txt-report-b", slow=1.18)
+phone_seg("E3-report-submit.mov", 3.0, 6.0, "txt-report-a")
+phone_seg("E3-report-submit.mov", 9.1, 10.5, "txt-report-type", slow=2.0)
+phone_seg("E3-report-submit.mov", 10.5, 14.7, "txt-report-b")
 # 10 website browser card
 webcard_seg(5.0, "txt-web")
 # 11 end card (bigger logo)
@@ -98,7 +99,7 @@ color_seg(6.0, [("LOGO:240:170", 0), ("card-end", 0.5)])
 # ---------------- xfade chain ----------------
 # per-join fade durations: join i = the transition INTO segment i.
 # Slower (0.7s) into/out of the report flow and the website card; 0.4s elsewhere.
-JOIN_TR = {8: 0.7, 9: 0.7, 10: 0.7, 11: 0.7}
+JOIN_TR = {8: 0.7, 9: 0.7, 10: 0.7, 11: 0.7, 12: 0.7}
 fc = ";".join(c for c, _ in segs_info)
 off, last = 0.0, "s0"
 for i in range(1, len(segs_info)):
