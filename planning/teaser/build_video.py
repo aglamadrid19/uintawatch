@@ -88,7 +88,7 @@ phone_seg("B-node-detail.mov", 1.6, 7.1, "txt-node")
 phone_seg("C2-alert-detail.mov", 1.5, 7.5, "txt-alerts")
 phone_seg("D4-agent-stream.mov", 3.0, 8.0, "txt-agent-a")
 phone_seg("D4-agent-stream.mov", 11.8, 17.8, "txt-agent-b")
-phone_seg("E3-report-submit.mov", 3.0, 6.0, "txt-report-a")
+phone_seg("E3-report-submit.mov", 1.8, 6.2, "txt-report-a", slow=1.2)
 phone_seg("E3-report-submit.mov", 9.1, 10.5, "txt-report-type", slow=2.0)
 phone_seg("E3-report-submit.mov", 10.5, 14.7, "txt-report-b")
 # 10 website browser card

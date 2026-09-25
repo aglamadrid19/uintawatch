@@ -64,7 +64,7 @@ Where from here — the answer, for real this time
 
 And the deadline: today, Sept. 25, the AntSeed contest closes. I'm submitting this article with a teaser video cut from the actual app — no mockups, no Figma.
 
-[MEDIA: uintawatch-teaser.mp4 — 55s, 1080p, silent. Record the VO over it.]
+[MEDIA: uintawatch-teaser.mp4 — 60s, 1080p, silent. Record the VO over it.]
 
 None of the inference that built this cost me more than a few dollars. Research, verification, code, QA, visuals — mostly free through the providers in the AntSeed network. That's the whole point of what AntSeed is doing, and the reason a weekend project from Utah can afford to be honest in public.
 
