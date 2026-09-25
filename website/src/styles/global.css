@@ -266,4 +266,92 @@
     height: 2px;
     background-color: var(--color-accent);
   }
+
+  /* Journal prose — rendered markdown inside journal entries */
+  .journal-prose {
+    max-width: 65ch;
+    line-height: 1.75;
+  }
+
+  .journal-prose > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .journal-prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .journal-prose h3 {
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .journal-prose ul,
+  .journal-prose ol {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .journal-prose ul {
+    list-style: disc;
+  }
+
+  .journal-prose ol {
+    list-style: decimal;
+  }
+
+  .journal-prose blockquote {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.25rem;
+    color: var(--color-ink-soft);
+  }
+
+  .journal-prose a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .journal-prose a:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .journal-prose table {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+  }
+
+  @media (max-width: 640px) {
+    .journal-prose table {
+      font-size: 0.75rem;
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  .journal-prose th,
+  .journal-prose td {
+    border: 1px solid var(--color-paper-3);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  .journal-prose code {
+    font-size: 0.875em;
+    background-color: var(--color-paper-2);
+    padding: 0.125rem 0.375rem;
+    border-radius: 2px;
+  }
+
+  .journal-prose pre {
+    background-color: var(--color-paper-2);
+    border: 1px solid var(--color-paper-3);
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 2px;
+  }
 }

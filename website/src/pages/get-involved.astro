@@ -15,6 +15,8 @@ interface Way {
   title: string;
   description: string;
   cta: string;
+  href: string;
+  external?: boolean;
   image: ImageMetadata;
   imageAlt: string;
 }
@@ -30,6 +32,7 @@ const ways: Way[] = [
     title: 'Run a Sensor Node',
     description: 'Pre-assembled sensor units work straight out of the box. Configure with a phone app, mount with solar, join the network automatically. No engineering background needed.',
     cta: 'Request a Node',
+    href: 'mailto:hello@uintawatch.com',
     image: runSensorNode,
     imageAlt: 'A person pairing a compact solar-powered mesh sensor node with a smartphone on a Utah ridge',
   },
@@ -38,14 +41,16 @@ const ways: Way[] = [
     title: 'Build Your Own',
     description: 'Open-source designs for community members who want to assemble their own sensor units. We provide instructions and parts list - beginner-friendly.',
     cta: 'View Build Guides',
+    href: '/sensors',
     image: sensorNodeBuild,
     imageAlt: 'A workbench with a LoRa radio, gas sensor, solar panel, and battery being assembled into a sensor node',
   },
   {
     id: 'report',
     title: 'Report Smoke or Fire',
-    description: 'When you see something, file a report through our app. What you see feeds the early warning system. Early detection by a neighbor makes the difference.',
+    description: 'When you see something, file a report through our app. What you see feeds the public sensor map and our research record. A neighbor spotting smoke early still makes the difference.',
     cta: 'Download the App',
+    href: '/support',
     image: reportSmokeFire,
     imageAlt: 'A hiker on a canyon viewpoint holding a phone toward a distant smoke plume',
   },
@@ -54,6 +59,8 @@ const ways: Way[] = [
     title: 'Develop the Software',
     description: 'The entire platform is open source. React Native and Node.js developers can contribute. The more people who build and maintain sensors, the stronger the network.',
     cta: 'Contribute on GitHub',
+    href: 'https://github.com/aglamadrid19/uintawatch',
+    external: true,
     image: developSoftware,
     imageAlt: 'A developer at a desk at dusk, coding the sensor network dashboard',
   },
@@ -62,24 +69,26 @@ const ways: Way[] = [
     title: 'Educate and Organize',
     description: 'Help neighbors and officials understand what Uinta Watch is and why it matters. Host a demo night. Talk to your local fire department.',
     cta: 'Get Materials',
+    href: 'mailto:hello@uintawatch.com',
     image: educateOrganize,
     imageAlt: 'A volunteer demonstrating a sensor node to neighbors at a community demo night',
   },
   {
     id: 'deploy',
-    title: 'Deploy a Sensor',
-    description: 'Find a location in your wildland community and maintain a sensor node. Be the local anchor of the network. Training and support provided.',
-    cta: 'Find a Location',
+    title: 'Host or Deploy a Sensor',
+    description: 'Host a test node on property you own or manage — a home, a ranch, a business. Strategic placements on public land require permits, so community-hosted nodes come first. Training and support provided.',
+    cta: 'Host a Node',
+    href: 'mailto:hello@uintawatch.com',
     image: deploySensor,
     imageAlt: 'A person mounting a weatherproof solar sensor node to a wooden post on a Utah ridgeline',
   },
 ];
 
 const offering: OfferItem[] = [
-  { number: '5-10', label: 'Pilot sensor nodes' },
-  { number: '~$150', label: 'Per node' },
-  { number: '100+', label: 'Acres coverage' },
-  { number: '24/7', label: 'Monitoring' },
+  { number: '5-10', label: 'First pilot nodes' },
+  { number: '~$150', label: 'Cost per node' },
+  { number: '100%', label: 'Designs & data published' },
+  { number: '24/7', label: 'Sensors never sleep' },
 ];
 ---
 
@@ -97,7 +106,7 @@ const offering: OfferItem[] = [
             <span class="text-accent">is a node.</span>
           </h1>
           <p class="prose text-ink-soft text-xl leading-relaxed">
-            You don't need to be an engineer. You need curiosity, a stake in Utah's future, and a willingness to protect your neighbors.
+            Curiosity, a stake in Utah's wildlands, and a willingness to look out for your neighbors matter more than an engineering background.
           </p>
         </div>
       </div>
@@ -112,17 +121,17 @@ const offering: OfferItem[] = [
         width={1920}
         height={1080}
         loading="lazy"
-        inferSize={false}
+        layout="full-width"
       />
       <div class="absolute inset-0 bg-ink/45"></div>
       <div class="relative z-10 flex items-center justify-center" style="min-height: 55vh;">
         <div class="container text-center">
           <p class="eyebrow text-accent-ink/70 mb-4">The Network</p>
           <h2 class="text-display-lg text-accent-ink mb-4">
-            Every ridge. Every canyon. Every neighbor watching.
+            Every ridge has a neighbor on it.
           </h2>
           <p class="text-accent-ink/80 text-xl max-w-xl mx-auto">
-            Solar-powered sensor nodes. Peer-to-peer mesh. No cell towers, no satellites.
+            Solar-powered sensor nodes relay over a peer-to-peer mesh to a few internet gateways — off-grid by design.
           </p>
         </div>
       </div>
@@ -145,7 +154,13 @@ const offering: OfferItem[] = [
                   <h2 class="text-display-md text-ink">{way.title}</h2>
                 </div>
                 <p class="prose text-ink-soft mb-6">{way.description}</p>
-                <span class="btn-secondary">{way.cta}</span>
+                <a
+                  href={way.href}
+                  class="btn-secondary"
+                  {...(way.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {way.cta}
+                </a>
               </div>
 
               <!-- Visual side — editorial photography -->
@@ -158,7 +173,8 @@ const offering: OfferItem[] = [
                     width={800}
                     height={800}
                     loading="lazy"
-                    inferSize={false}
+                    widths={[400, 800]}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-ink/20 to-transparent"></div>
                 </div>
@@ -187,7 +203,7 @@ const offering: OfferItem[] = [
     <section class="section bg-accent">
       <div class="container text-center">
         <h2 class="text-display-lg text-accent-ink mb-6 max-w-xl mx-auto">
-          The strength of Uinta Watch is in all of us together.
+          The first pilot nodes go up on land hosted by people like you — the network grows one node and one pair of watching eyes at a time.
         </h2>
         <a href="/get-involved" class="btn-primary justify-center" style="background-color: var(--color-paper); color: var(--color-ink);">
           Join the Community

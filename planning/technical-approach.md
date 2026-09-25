@@ -8,7 +8,7 @@
 
 A grounded look at the technical path for Uinta Watch — what hardware exists, what it costs, what the network architecture looks like, and what the remaining open questions are. No assumptions, no speculation beyond what existing projects and hardware have demonstrated.
 
-The bottom line: **this project is technically feasible today.** The building blocks exist, the mesh architecture is proven, and the community participation path is real. The main challenge is the integration and deployment work — not invention.
+The short version: **this project is technically feasible today.** The building blocks exist, the mesh architecture is proven, and the community participation path is real. The main challenge is the integration and deployment work — not invention.
 
 ---
 
@@ -29,7 +29,7 @@ Sensors must communicate without relying on cell towers or satellites. A few gat
 - Data flows: node → mesh relay → gateway → MQTT → web dashboard + mobile alert
 
 **Why LoRa/Meshtastic specifically:**
-- Proven globally; hundreds of thousands of Meshtastic nodes running
+- Proven globally; well over 100,000 Meshtastic nodes running
 - Runs on cheap, commercially available hardware with fully open-source firmware
 - No subscription, no cellular dependency, no per-year software cost
 - Solar + battery-powered devices are well within practical reach

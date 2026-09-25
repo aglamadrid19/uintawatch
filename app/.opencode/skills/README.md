@@ -47,6 +47,15 @@ Skills whose core purpose uses paid Expo Application Services (EAS). Description
 | `eas-update-insights` | EAS Update health, crash rates, launch counts, payload size, and rollout gates. | EAS Update usage |
 | `eas-simulator` | Remote iOS/Android simulators on EAS cloud, driven from the CLI or an agent, with browser preview. | EAS Simulator usage |
 
+## Project & QA
+
+Project-local skills that aren't part of the Expo framework set.
+
+| Skill | Use it for |
+| --- | --- |
+| `mobile-app-ui-design` | Designing or improving mobile screens: hierarchy, spacing, thumb zone, empty states, industry conventions. |
+| `qa-audit` | The design/UX/RN audit rubric for `app/qa/` sweeps — checklist, workflow, and scorecard format for `QA-FINDINGS.md`. |
+
 ## Adding a skill
 
 1. Create `skills/<skill-name>/SKILL.md` (one level deep - do not nest under a category folder, or it will not be discovered).

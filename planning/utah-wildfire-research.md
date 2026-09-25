@@ -94,7 +94,7 @@ The largest wildfire in Utah's recent recorded history was the **Milford Flat fi
 3. **Human-caused fires dominate:** In 2026, human causes were suspected in **75% of wildfires**. Human-caused fires rose from ~49% to over 70% in recent years. Early detection and rapid reporting could significantly reduce this risk.
 4. **Growing structure losses:** 2025 and 2026 represent two of the most destructive fire seasons for structures in Utah's recent history.
 5. **Multi-year economic burden:** Firefighting costs, post-fire recovery, healthcare costs from smoke inhalation, and lost recreation/tourism revenue create a multi-year economic drag on the state.
-6. **Expanding fire season:** The 2025–2026 winter was the warmest on record with one of the lowest recorded snowpacks, leaving fuels dry enough to foster fire conditions **as early as March**. The traditional July–October fire season is expanding at both ends.
+6. **Expanding fire season:** The 2025–2026 winter was the warmest on record with one of the lowest recorded snowpacks, leaving fuels dry enough to sustain fire conditions **as early as March**. The traditional July–October fire season is expanding at both ends.
 
 ---
 

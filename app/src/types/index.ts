@@ -5,6 +5,16 @@ export interface Sensor {
   lng: number;
   lastSeen: string;
   status: 'online' | 'offline' | 'alert';
+  /** Node configuration label, e.g. "BME688 + PM2.5" (optional, lab configs A–E) */
+  nodeConfig?: string;
+  /** Firmware version reported by the node */
+  firmware?: string;
+  /** Mesh hop count from this node to a gateway */
+  hops?: number;
+  /** Gateway node the mesh currently routes through */
+  gateway?: string;
+  /** Uptime in hours since last reboot */
+  uptimeH?: number;
 }
 
 export interface Reading {
@@ -16,6 +26,10 @@ export interface Reading {
   voc: number;
   batteryMv: number;
   rssi: number;
+  /** Wind speed at the node, m/s */
+  windMs?: number;
+  /** Wind direction at the node, degrees from north */
+  windDirDeg?: number;
 }
 
 export interface SensorWithReading extends Sensor {

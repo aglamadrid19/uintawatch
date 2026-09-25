@@ -1,15 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import heroSensor from '../assets/images/hero-sensor.png';
 import wildfireSky from '../assets/images/wildfire-sky.png';
 
-const stats = [
-  { number: '1.2M', label: 'Acres burned', context: 'Utah since 2015' },
-  { number: '$240M', label: 'Firefighting costs', context: '2025 season' },
-  { number: '180+', label: 'Structures destroyed', context: '2026 season' },
-  { number: '3', label: 'On-duty firefighter deaths', context: '2026 season' },
-];
+const stats = (await getCollection('stats')).sort((a, b) => a.data.order - b.data.order);
 
 const waysToParticipate = [
   {
@@ -24,7 +20,7 @@ const waysToParticipate = [
   },
   {
     title: 'Report What You See',
-    description: 'When you see smoke, file a report through our app. What you see feeds the early warning system.',
+    description: 'When you see smoke, file a report through our app. What you see feeds the public sensor map and our research record.',
     href: '/get-involved#report',
   },
   {
@@ -35,7 +31,7 @@ const waysToParticipate = [
 ];
 ---
 
-<Layout title="Home" description="Uinta Watch is a community-driven, open-source early wildfire detection network. Solar-powered mesh sensors across Utah's wildlands — built by Utahns, for Utah.">
+<Layout title="Uinta Watch — Open Wildfire Sensing Lab" description="Uinta Watch is a community-driven, open-source field lab for low-cost wildfire sensing. Solar-powered mesh sensor nodes, reproducible field tests, and published data — built by Utahns, for Utah.">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-ink rounded">Skip to content</a>
   <main id="main-content">
 
@@ -50,13 +46,13 @@ const waysToParticipate = [
 
           <!-- Main content — not centered -->
           <div class="lg:col-span-6">
-            <p class="eyebrow mb-6">Community Wildfire Detection</p>
+            <p class="eyebrow mb-6">Open Wildfire Sensing Lab</p>
             <h1 class="text-display-xl text-ink mb-8">
               Utah is burning.<br/>
               <span class="text-accent">Now it's your turn to watch.</span>
             </h1>
             <p class="prose text-ink-soft text-lg mb-10 leading-relaxed">
-              Uinta Watch is a community-driven, open-source early wildfire detection network. Solar-powered mesh sensors across Utah's wildlands — built by Utahns, for Utah.
+              Uinta Watch is a community-driven, open-source field lab for low-cost wildfire sensing. Open sensor nodes, reproducible field tests, published data and failures — built by Utahns, for Utah.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
               <a href="/get-involved" class="btn-primary justify-center">Join the Network</a>
@@ -73,8 +69,9 @@ const waysToParticipate = [
                 class="w-full h-full object-cover"
                 width={800}
                 height={600}
-                loading="eager"
-                inferSize={false}
+                priority
+                widths={[400, 800]}
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-ink/30 to-transparent"></div>
             </div>
@@ -90,12 +87,13 @@ const waysToParticipate = [
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {stats.map((stat) => (
             <div>
-              <div class="stat-number">{stat.number}</div>
-              <div class="font-body font-medium text-ink mt-1">{stat.label}</div>
-              <p class="text-xs text-ink-muted mt-1">{stat.context}</p>
+              <div class="stat-number">{stat.data.number}</div>
+              <div class="font-body font-medium text-ink mt-1">{stat.data.label}</div>
+              <p class="text-xs text-ink-muted mt-1">{stat.data.context}</p>
             </div>
           ))}
         </div>
+        <p class="text-xs text-ink-muted mt-8">Figures from Deseret News wildfire reporting (Aug 2026), the Utah State Forester, and federal incident reports.</p>
       </div>
     </section>
 
@@ -115,7 +113,7 @@ const waysToParticipate = [
           <div class="lg:col-span-5">
             <div class="prose text-ink-soft space-y-4">
               <p>
-                Utah's rural wildlands are vast. Cell towers don't reach every ridge. Satellites capture images hours old before they're processed.
+                Utah's rural wildlands are vast. Cell towers don't reach every ridge. Satellites pass overhead only a few times a day, can't see through clouds, and miss low-energy smoldering at night — the fires that grow quietly while everything else is blind.
               </p>
               <p>
                 The first person to spot smoke is often a hiker, a rancher, a neighbor. There was no systematic way to get that information into the emergency network fast enough to matter.
@@ -161,11 +159,11 @@ const waysToParticipate = [
       <Image
         src={wildfireSky}
         alt="Wildfire smoke column rising over Utah's mountain forest at dusk"
-        class="absolute inset-0 w-full h-full object-cover"
+        class="absolute inset-0 w-full h-full object-cover object-[70%_center] md:object-center"
         width={1920}
         height={1080}
         loading="lazy"
-        inferSize={false}
+        layout="full-width"
       />
       <div class="absolute inset-0 bg-ink/50"></div>
       <div class="relative z-10 flex items-center justify-center" style="min-height: 70vh;">
@@ -175,8 +173,7 @@ const waysToParticipate = [
             75% of Utah's wildfires<br/>are human-caused.
           </h2>
           <p class="text-accent-ink/80 max-w-xl mx-auto text-xl leading-relaxed">
-            Early detection means resources reach the ignition point in minutes, not hours.<br/>
-            That's the gap Uinta Watch exists to close.
+            Early detection means resources reach the ignition point in minutes, not hours.
           </p>
         </div>
       </div>
@@ -185,12 +182,12 @@ const waysToParticipate = [
     <!-- Statement section — full bleed accent -->
     <section class="section bg-accent">
       <div class="container text-center">
-        <p class="eyebrow text-accent-ink/70 mb-4">The Network</p>
+        <p class="eyebrow text-accent-ink/70 mb-4">The Approach</p>
         <h2 class="text-display-lg text-accent-ink mb-6 max-w-2xl mx-auto leading-tight">
-          Solar-powered. Mesh-connected. No cell towers required.
+          Solar-powered nodes, mesh-connected, with everything published by default.
         </h2>
         <p class="text-accent-ink/80 max-w-xl mx-auto mb-8 leading-relaxed">
-          Uinta Watch keeps working when everything else fails.
+          Most sensor nodes need no internet — a few gateway nodes bridge the mesh to it. Every design, test result, and failure gets published.
         </p>
         <a href="/get-involved" class="btn-primary justify-center" style="background-color: var(--color-paper); color: var(--color-ink);">
           Start Contributing

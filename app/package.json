@@ -7,18 +7,19 @@
     "@react-native-community/netinfo": "12.0.1",
     "@tanstack/react-query": "^5.102.8",
     "babel-preset-expo": "^57.0.9",
-    "expo": "~57.0.18",
+    "expo": "~57.0.24",
+    "expo-build-properties": "~57.0.20",
     "expo-constants": "^57.0.16",
-    "expo-dev-client": "~57.0.16",
+    "expo-dev-client": "~57.0.19",
     "expo-font": "~57.0.2",
-    "expo-image": "~57.0.0",
-    "expo-image-picker": "^57.0.14",
-    "expo-linking": "^57.0.8",
-    "expo-location": "^57.0.14",
-    "expo-router": "~57.0.17",
-    "expo-secure-store": "^57.0.2",
+    "expo-image": "~57.0.5",
+    "expo-image-picker": "~57.0.19",
+    "expo-linking": "~57.0.10",
+    "expo-location": "~57.0.19",
+    "expo-router": "~57.0.22",
+    "expo-secure-store": "~57.0.4",
     "expo-status-bar": "~57.0.1",
-    "react": "^19.2.3",
+    "react": "19.2.3",
     "react-native": "^0.86.3",
     "react-native-maps": "^1.27.2",
     "react-native-safe-area-context": "~5.7.0",
@@ -27,14 +28,14 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "react-refresh": "^0.14.2",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
-    "postinstall": "sed -i '' 's/executeSync/runSync/g' node_modules/expo-modules-core/ios/WorkletsAdapter/ExpoWorkletsBridgeProvider.mm; sed -i '' 's/executeSync/runSync/g' node_modules/expo-modules-core/android/src/main/cpp/worklets/WorkletJSCallInvoker.cpp"
+    "web": "expo start --web"
   },
   "private": true
 }

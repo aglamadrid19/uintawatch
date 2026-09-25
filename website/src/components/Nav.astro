@@ -1,12 +1,12 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/images/uinta-watch-logo.png';
+import logoNav from '../assets/images/logo-nav.png';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/get-involved', label: 'Get Involved' },
   { href: '/sensors', label: 'Sensors' },
+  { href: '/open-questions', label: 'Open Questions' },
+  { href: '/journal', label: 'Journal' },
 ];
 
 const pathname = Astro.url.pathname;
@@ -17,7 +17,7 @@ const pathname = Astro.url.pathname;
     <div class="flex items-center justify-between h-16">
       <!-- Wordmark -->
       <a href="/" class="flex items-center gap-3 group">
-        <Image src={logo} alt="Uinta Watch logo" class="h-16 w-16 rounded-full object-cover" inferSize={false} />
+        <Image src={logoNav} alt="Uinta Watch logo" width={128} height={128} format="png" layout="fixed" class="h-16 w-16 shrink-0" loading="eager" />
         <span class="font-body text-xl font-medium text-ink">
           Uinta<span class="text-accent">Watch</span>
         </span>
@@ -30,7 +30,7 @@ const pathname = Astro.url.pathname;
             href={link.href}
             class:list={[
               'text-base font-medium transition-colors duration-150',
-              pathname === link.href
+              (pathname === link.href || pathname.startsWith(link.href + '/'))
                 ? 'text-accent'
                 : 'text-ink-soft hover:text-ink'
             ]}
@@ -49,6 +49,7 @@ const pathname = Astro.url.pathname;
         class="md:hidden p-2 -mr-2"
         aria-label="Open menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
         data-mobile-menu-toggle
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -58,14 +59,14 @@ const pathname = Astro.url.pathname;
     </div>
 
     <!-- Mobile menu -->
-    <div class="md:hidden hidden" data-mobile-menu>
+    <div class="md:hidden hidden" id="mobile-menu" data-mobile-menu>
       <div class="py-4 border-t border-paper-3 space-y-1">
         {navLinks.map(link => (
           <a
             href={link.href}
             class:list={[
               'block px-3 py-3 text-sm font-medium transition-colors duration-150 rounded',
-              pathname === link.href
+              (pathname === link.href || pathname.startsWith(link.href + '/'))
                 ? 'text-accent bg-paper-2'
                 : 'text-ink-soft hover:text-ink hover:bg-paper-2'
             ]}

@@ -34,13 +34,13 @@ const devices: Device[] = [
 ];
 
 const sensors: Sensor[] = [
-  { partName: 'BME688', price: '$35-50', measures: 'Temp, humidity, pressure, gas', role: 'Primary detection - gas sensing picks up combustion before smoke is visible.', highlight: true },
-  { partName: 'BME680', price: '$25-40', measures: 'Temp, humidity, pressure, gas', role: 'Alternative - lower cost with similar capability.', highlight: false },
-  { partName: 'BME280', price: '$8-12', measures: 'Temperature, humidity, pressure', role: 'Secondary layer - plugs into Grove port, no soldering.', highlight: false },
+  { partName: 'BME688', price: '$35-50', measures: 'Temp, humidity, pressure, gas', role: 'Gas sensing (VOC/CO/H₂) — one input under test. Its value as an outdoor fire signal is unknown and being measured in public.', highlight: true },
+  { partName: 'BME680', price: '$25-40', measures: 'Temp, humidity, pressure, gas', role: 'Alternative — lower cost with similar capability.', highlight: false },
+  { partName: 'BME280', price: '$8-12', measures: 'Temperature, humidity, pressure', role: 'Baseline layer — plugs into Grove port, no soldering. Serves as the false-positive reference on some test nodes.', highlight: false },
 ];
 ---
 
-<Layout title="Sensors" description="The sensor hardware behind the network — LoRa mesh radios, environmental sensors, and solar power for off-grid wildfire detection.">
+<Layout title="Sensors" description="The sensor hardware behind Uinta Watch — LoRa mesh radios, environmental sensors, and solar power for open, off-grid environmental sensing.">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-ink rounded">Skip to content</a>
   <main id="main-content">
 
@@ -51,10 +51,10 @@ const sensors: Sensor[] = [
           <p class="eyebrow mb-6">Hardware Guide</p>
           <h1 class="text-display-xl text-ink mb-8">
             The sensor hardware<br/>
-            <span class="text-accent">behind the network.</span>
+            <span class="text-accent">under test.</span>
           </h1>
           <p class="prose text-ink-soft text-xl leading-relaxed">
-            Every sensor node has a LoRa radio and acts as both a sensing unit and a relay. No cell signal required — the mesh carries the data.
+            Every sensor node has a LoRa radio and acts as both a sensing unit and a relay. Most nodes need no internet — a few gateway nodes bridge the mesh to it. What this hardware can and cannot detect is an open question we're answering in public.
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@ const sensors: Sensor[] = [
                   <p class="eyebrow mb-1">{device.category}</p>
                   <h3 class="font-body font-semibold text-ink text-xl">{device.partName}</h3>
                 </div>
-                <span class="text-accent font-semibold">{device.price}</span>
+                <span class="text-accent font-semibold whitespace-nowrap">{device.price}</span>
               </div>
               <ul class="space-y-2 mb-4">
                 {device.features.map(f => (
@@ -104,7 +104,7 @@ const sensors: Sensor[] = [
           <p class="eyebrow mb-4">Environmental Sensors</p>
           <h2 class="text-display-lg text-ink mb-4">What the Nodes Sense</h2>
           <p class="prose text-ink-soft max-w-xl">
-            The BME688's gas sensing detects combustion in the air before visible smoke appears. All plug into the Grove port — no soldering.
+            Environmental sensors track temperature, humidity, pressure, particulates, and gases. Published federal research shows ground smoke sensors can beat satellites at detecting night smoldering and contained-fire smoke — that's the niche we're testing with open hardware. All sensors plug into the Grove port — no soldering.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ const sensors: Sensor[] = [
                 <span class="inline-block px-2 py-0.5 bg-accent/10 text-accent text-xs font-semibold rounded mb-3">Recommended</span>
               )}
               <h3 class="font-body font-semibold text-ink text-xl mb-1">{sensor.partName}</h3>
-              <p class="text-accent font-semibold mb-4">{sensor.price}</p>
+              <p class="text-accent font-semibold whitespace-nowrap mb-4">{sensor.price}</p>
               <div class="space-y-4 text-sm">
                 <div>
                   <p class="font-medium text-ink-muted mb-1">Measures</p>
@@ -140,7 +140,7 @@ const sensors: Sensor[] = [
             <p class="eyebrow mb-4">Power System</p>
             <h2 class="text-display-lg text-ink mb-6">Solar + Battery</h2>
             <p class="prose text-ink-soft mb-8">
-              Every node runs completely off-grid. The battery autonomy target is 2-3 days without sunlight. In Utah's climate, manageable with a modest panel.
+              Every node runs completely off-grid. The battery autonomy target is 2-3 days without sunlight — though whether a solar node can survive a Utah winter unattended is one of our open questions. In Utah's climate, manageable with a modest panel.
             </p>
             <div class="space-y-4">
               {[
@@ -163,23 +163,23 @@ const sensors: Sensor[] = [
               <div class="space-y-3 text-sm">
                 <div class="flex justify-between">
                   <span class="text-ink-muted">LILYGO T-Echo</span>
-                  <span>$35-70</span>
+                  <span class="whitespace-nowrap">$35-70</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-ink-muted">BME688 sensor</span>
-                  <span>$35-50</span>
+                  <span class="whitespace-nowrap">$35-50</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-ink-muted">Solar + enclosure</span>
-                  <span>$15-25</span>
+                  <span class="whitespace-nowrap">$15-25</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-ink-muted">Battery + charger</span>
-                  <span>$10-15</span>
+                  <span class="whitespace-nowrap">$10-15</span>
                 </div>
                 <div class="pt-3 border-t border-paper-3 flex justify-between font-semibold text-lg">
                   <span>Total per node</span>
-                  <span class="text-accent">$85-150</span>
+                  <span class="text-accent whitespace-nowrap">$85-150</span>
                 </div>
               </div>
             </div>
@@ -191,7 +191,8 @@ const sensors: Sensor[] = [
                 width={600}
                 height={800}
                 loading="lazy"
-                inferSize={false}
+                widths={[300, 600]}
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-ink/20 to-transparent"></div>
             </div>

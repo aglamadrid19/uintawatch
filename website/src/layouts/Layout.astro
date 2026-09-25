@@ -13,12 +13,12 @@ interface Props {
 
 const {
   title,
-  description = 'Community wildfire early detection. Open source, open access. Built by Utahns, for Utah.',
+  description = 'Uinta Watch is an open field lab for low-cost wildfire sensing — open source, open data, built by Utahns.',
   ogImage
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL(ogImage ?? '/images/uinta-watch-logo.png', Astro.site);
+const ogImageURL = new URL(ogImage ?? '/images/og-default.png', Astro.site);
 ---
 
 <!doctype html>
@@ -28,8 +28,11 @@ const ogImageURL = new URL(ogImage ?? '/images/uinta-watch-logo.png', Astro.site
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FAF8F5" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
@@ -45,13 +48,34 @@ const ogImageURL = new URL(ogImage ?? '/images/uinta-watch-logo.png', Astro.site
     <meta property="og:title" content={`${title} | Uinta Watch`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:secure_url" content={ogImageURL} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={description} />
+    <meta property="og:locale" content="en_US" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Uinta Watch" href={new URL('rss.xml', Astro.site)} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={`${title} | Uinta Watch`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={description} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Uinta Watch",
+      "url": "https://uintawatch.com",
+      "description": description,
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://uintawatch.com/images/uinta-watch-logo.png"
+      },
+      "sameAs": []
+    })} />
   </head>
   <body>
     <Nav />

@@ -1,43 +1,69 @@
-# Astro Starter Kit: Minimal
+# Uinta Watch — Website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Marketing site for [Uinta Watch](https://uintawatch.com), a community-driven,
+open-source early wildfire detection network for Utah. Built with Astro 7 and
+Tailwind CSS 4.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+All commands are run from the project root, in a terminal:
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command            | Action                                         |
+| :----------------- | :--------------------------------------------- |
+| `npm install`      | Installs dependencies                          |
+| `npm run dev`      | Starts local dev server at `localhost:4321`    |
+| `npm run build`    | Build your production site to `./dist/`        |
+| `npm run preview`  | Preview your build locally, before deploying   |
+| `npm run check`    | Type-check the project with `astro check`      |
+| `npm run test`     | Run the Playwright end-to-end tests            |
+
+## Project structure
 
 ```text
 /
-├── public/
+├── public/            # Static assets (icons, manifest, og images)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/    # Nav, Footer
+│   ├── content/       # Content collections (stats, faq, phases)
+│   ├── layouts/       # Base layout (head, fonts, meta, transitions)
+│   ├── pages/         # Routes
+│   ├── styles/        # Global CSS + Tailwind theme
+│   └── content.config.ts
+└── astro.config.mjs   # Fonts, prefetch, sitemap, Tailwind
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Site content lives in `src/content/` and is validated against schemas in
+`src/content.config.ts`:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- `stats.json` — headline statistics on the homepage
+- `faq.json` — support page FAQ (HTML in `answer` is rendered)
+- `phases/*.md` — the phased plan on the About page
+- `journal/*.md` — lab journal entries (`/journal`), dated and sorted newest first
 
-## 🧞 Commands
+## Social cards (OG images)
 
-All commands are run from the root of the project, from a terminal:
+Every page emits `og:image` / `twitter:image` meta (see `src/layouts/Layout.astro`).
+Card images (1200×630) are composed by `make_og.py`:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- `public/images/og-default.png` — site default, used by pages without their own card
+- `public/images/og/<slug>.png` — one card per journal entry, wired up in
+  `src/pages/journal/[slug].astro`
 
-## 👀 Want to learn more?
+After adding a journal entry, regenerate the cards before deploying:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```sh
+python3 make_og.py   # needs python3 + Pillow; run from website/
+```
+
+`npm run test` includes a "Social cards" Playwright block that audits every
+page: og/twitter meta present, absolute image URL, 1200×630 dimensions, and
+the image resolving to a real PNG. If an entry's card is missing, that test
+fails with a 404.
+
+## Styling
+
+Tailwind CSS 4 via the `@tailwindcss/vite` plugin. Design tokens (paper/ink/
+accent palettes, display sizes, buttons) are defined in `src/styles/global.css`
+under `@theme` and `@layer components`.

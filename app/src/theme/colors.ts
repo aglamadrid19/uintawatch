@@ -1,6 +1,14 @@
 import { Platform } from 'react-native';
 import { Color } from 'expo-router';
 
+// Text-oriented accents: the brand ambers/reds above fail WCAG 4.5:1 as
+// small text on light surfaces, so small-text instances use these darker
+// variants (≥ 4.5:1 on every light surface in the app). The bright tokens
+// stay for graphics, dots, and large display text.
+export const emberText = '#A64B08';
+export const fireText = '#B93B1E';
+export const dangerText = '#B91C1C';
+
 export const colors = {
   bg: '#FAF8F5',
   bgAlt: '#F5F0EB',
@@ -30,17 +38,21 @@ export const colors = {
 
   ink: '#1C1814',
   inkSoft: '#4A443E',
-  inkMuted: '#8B8580',
+  // #66605B keeps the muted hierarchy but passes WCAG 4.5:1 on white,
+  // bg (#FAF8F5) and bgAlt (#F5F0EB). inkDim stays for icons/graphics only.
+  inkMuted: '#66605B',
   inkDim: '#B5B0AB',
 
   fire: '#E8593A',
   fireDark: '#C94A2E',
   fireLight: '#FF6B4A',
   fireGlow: 'rgba(232, 89, 58, 0.12)',
+  fireText, // #B93B1E — small-text fire red
 
   ember: '#F59E3A',
   emberLight: '#FFB84D',
   emberGlow: 'rgba(245, 158, 58, 0.12)',
+  emberText, // #A64B08 — small-text amber
 
   forest: '#2D7A4D',
   forestDark: '#1F5E38',
@@ -51,6 +63,7 @@ export const colors = {
   skyLight: '#4A90C4',
 
   danger: '#DC2626',
+  dangerText, // #B91C1C — small-text red
   success: '#2D7A4D',
   warning: '#F59E3A',
 
@@ -63,9 +76,9 @@ export const colors = {
   },
 
   severity: {
-    warning: '#F59E3A',
-    elevated: '#E8593A',
-    critical: '#DC2626',
+    warning: emberText,
+    elevated: fireText,
+    critical: dangerText,
   },
 };
 

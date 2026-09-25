@@ -1,0 +1,9 @@
+High-fidelity mobile app UI concept mockup for "Uinta Watch", a community wildfire early-detection network app for Utah. Single iPhone screen, portrait, edge-to-edge app UI (no device frame, no hand, no background). Fill the entire canvas with the app screen.
+
+CONCEPT 2 OF 5 — "STATUS HERO":
+Warm cream (#FAF8F5) screen. Top: "Uinta Watch" wordmark with a small mountain icon and a settings gear. Directly below, a large hero status card (white, rounded-2xl, soft shadow) with a big circular risk dial gauge — needle pointing in the green zone — labeled "FIRE RISK: MODERATE" in forest green, and the reassuring headline "The network is watching" with subline "8 nodes · 5 online · last ping 2 min ago". Inside the hero card's lower half, a mini sparkline of temperature over 24h. Below the hero: a 4-item quick-action row of small icon chips: "Report Smoke" (orange), "Nearest Sensor", "Fire Weather", "Alerts (2)" with a small orange badge. Below that, a compact horizontal map strip (Utah terrain, 3 sensor pins visible) that scrolls into the sensor list; first list card: "HFENS-Uintah-07" with ALERT badge in fire orange and red temperature 41.6°, second card "HFENS-Uintah-01" green ONLINE 34.2°, 28% RH. Bottom tab bar: Network (active, orange), Alerts, Report, Lab, Settings.
+
+DESIGN SYSTEM:
+- Colors: cream #FAF8F5, white cards, charcoal #1C1814, fire orange #E8593A (alerts + report action only), ember #F59E3A, forest green #2D7A4D.
+- 8-point grid, rounded-2xl, soft warm shadows, clear hierarchy: hero card is the single focal point, thumb-zone quick actions, 2-3 font sizes.
+- Realistic polished production UI, crisp legible text, SF Pro style typography. No lorem ipsum. No watermarks.

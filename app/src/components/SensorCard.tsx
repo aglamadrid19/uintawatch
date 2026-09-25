@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { SensorWithReading } from "../types";
 import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../theme";
+import { compassLabel } from "./WindChip";
+import { useSettingsStore, formatTemp, formatWind } from "../store/settings";
 
 interface SensorCardProps {
   sensor: SensorWithReading;
@@ -20,6 +23,9 @@ function formatRelativeTime(date: Date): string {
 
 export const SensorCard: React.FC<SensorCardProps> = ({ sensor, onPress }) => {
   const reading = sensor.latestReading;
+  const units = useSettingsStore((s) => s.units);
+  const temp = reading ? formatTemp(reading.tempC, units) : null;
+  const wind = reading?.windMs != null ? formatWind(reading.windMs, units) : null;
   const statusColor = MAP_MARKER_COLORS[sensor.status];
   const isAlert = sensor.status === "alert";
   const bgColor = isAlert ? colors.fireGlow : "transparent";
@@ -28,7 +34,7 @@ export const SensorCard: React.FC<SensorCardProps> = ({ sensor, onPress }) => {
     <TouchableOpacity
       accessible={true}
       accessibilityRole="button"
-      accessibilityLabel={`${sensor.name}, ${reading?.tempC.toFixed(1)}°, ${sensor.status}`}
+      accessibilityLabel={`${sensor.name}, ${temp ? `${temp.value}${temp.label}` : "no reading"}, ${sensor.status}`}
       accessibilityState={{ disabled: sensor.status === 'offline' }}
       style={[styles.container, isAlert && { backgroundColor: bgColor }]}
       onPress={onPress}
@@ -42,7 +48,7 @@ export const SensorCard: React.FC<SensorCardProps> = ({ sensor, onPress }) => {
         <View style={styles.titleArea}>
           <Text style={styles.name} numberOfLines={1}>{sensor.name}</Text>
           <Text style={styles.meta}>
-            {sensor.id} · {formatRelativeTime(new Date(sensor.lastSeen))}
+            {sensor.nodeConfig ?? sensor.id} · {formatRelativeTime(new Date(sensor.lastSeen))}
           </Text>
         </View>
         <View style={[styles.statusBadge, { backgroundColor: statusColor + "18" }]}>
@@ -50,16 +56,35 @@ export const SensorCard: React.FC<SensorCardProps> = ({ sensor, onPress }) => {
         </View>
       </View>
 
-      {reading && (
+      {reading && temp && (
         <View style={styles.metrics}>
           <View style={styles.metricItem}>
-            <Text style={styles.metricValue}>{reading.tempC.toFixed(1)}°</Text>
-            <Text style={styles.metricLabel}>Temp</Text>
+            <Text style={styles.metricValue}>{temp.value}°</Text>
+            <Text style={styles.metricLabel}>{temp.label === "°F" ? "Temp °F" : "Temp °C"}</Text>
           </View>
           <View style={styles.metricDivider} />
           <View style={styles.metricItem}>
             <Text style={styles.metricValue}>{reading.humidityPct.toFixed(0)}%</Text>
             <Text style={styles.metricLabel}>Humidity</Text>
+          </View>
+          <View style={styles.metricDivider} />
+          <View style={styles.metricItem}>
+            <View style={styles.windRow}>
+              {reading.windDirDeg != null && (
+                <Ionicons
+                  name="arrow-down"
+                  size={11}
+                  color={colors.sky}
+                  style={{ transform: [{ rotate: `${reading.windDirDeg + 180}deg` }] }}
+                />
+              )}
+              <Text style={styles.metricValue}>
+                {wind ? wind.value : "–"}
+              </Text>
+            </View>
+            <Text style={styles.metricLabel}>
+              {wind ? wind.label : ""} {reading.windDirDeg != null ? compassLabel(reading.windDirDeg) : ""}
+            </Text>
           </View>
           <View style={styles.metricDivider} />
           <View style={styles.metricItem}>
@@ -126,7 +151,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
   },
   meta: {
-    fontSize: 12,
+    fontSize: 11,
     color: colors.inkMuted,
     marginTop: 2,
   },
@@ -152,14 +177,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  windRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+  },
   metricValue: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "500",
     color: colors.ink,
     letterSpacing: -0.3,
+    fontVariant: ['tabular-nums'],
   },
   metricLabel: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: "600",
     color: colors.inkMuted,
     marginTop: 2,

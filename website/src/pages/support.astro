@@ -1,10 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const faq = await getCollection('faq');
 ---
 
 <Layout
   title="Support"
-  description="Get help with the Uinta Watch app — troubleshooting, permissions, and how to contact us. We're happy to help."
+  description="Get help with the Uinta Watch app — troubleshooting, permissions, and how to contact us."
 >
   <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-ink rounded">Skip to content</a>
   <main id="main-content">
@@ -15,8 +18,8 @@ import Layout from '../layouts/Layout.astro';
         <div class="max-w-3xl">
           <p class="eyebrow mb-6">Support</p>
           <h1 class="text-display-xl text-ink mb-8">
-            We're Here to<br/>
-            <span class="text-accent">Help You Watch</span>
+            We're here to<br/>
+            <span class="text-accent">help you watch</span>
           </h1>
           <p class="text-ink-soft text-xl leading-relaxed">
             Answers to the most common questions, plus a direct line to the team behind
@@ -31,55 +34,14 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="grid lg:grid-cols-12 gap-12">
           <div class="lg:col-span-7 space-y-6">
-            <h2 class="text-display-lg text-ink mb-6">Frequently Asked Questions</h2>
+            <h2 class="text-display-lg text-ink mb-6">Frequently asked questions</h2>
 
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">Why does the app ask for my location?</h3>
-              <p class="prose text-ink-soft text-sm">
-                Uinta Watch requests location <em>only</em> when you use the <strong>Report</strong> feature, so your fire or
-                smoke sighting can be tied to where you observed it. The sensor map never tracks your location. If you deny
-                permission, the rest of the app still works — you just won't be able to attach a location to a report.
-              </p>
-            </div>
-
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">Why does the app ask for camera and photo access?</h3>
-              <p class="prose text-ink-soft text-sm">
-                So you can attach an optional photo to a report. The app only touches your camera or photo library when you
-                explicitly choose an image, and never otherwise.
-              </p>
-            </div>
-
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">Do I need an account to use the app?</h3>
-              <p class="prose text-ink-soft text-sm">
-                No. Uinta Watch has no login, no sign-up, and no account system. Download it, open it, and everything works.
-              </p>
-            </div>
-
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">Does the app work without an internet connection?</h3>
-              <p class="prose text-ink-soft text-sm">
-                Yes. The current release ships with bundled sample sensor data, so the map, alerts, and sensor details all
-                work fully offline. Live network data is on the way.
-              </p>
-            </div>
-
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">How do I change app permissions?</h3>
-              <p class="prose text-ink-soft text-sm">
-                Open your device's <strong>Settings</strong>, scroll to <strong>Uinta Watch</strong>, and grant or revoke
-                Location, Camera, or Photos access anytime.
-              </p>
-            </div>
-
-            <div class="card">
-              <h3 class="font-body font-semibold text-ink mb-2">What is the app's data collection policy?</h3>
-              <p class="prose text-ink-soft text-sm">
-                We collect only what you submit through the Report feature. No ads, no analytics, no trackers. See our
-                <a href="/privacy" class="text-accent hover:text-accent-dark underline">Privacy Policy</a> for full details.
-              </p>
-            </div>
+            {faq.map((entry) => (
+              <div class="card">
+                <h3 class="font-body font-semibold text-ink mb-2">{entry.data.question}</h3>
+                <p class="prose text-ink-soft text-sm" set:html={entry.data.answer}></p>
+              </div>
+            ))}
           </div>
 
           <!-- Contact sidebar -->

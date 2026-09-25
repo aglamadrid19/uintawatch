@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator, Platform } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Platform } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useLocalSearchParams, Stack } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { apiService } from "../../src/services/api";
 import { SensorWithReading, Reading } from "../../src/types";
 import { colors, spacing, radius, shadows, MAP_MARKER_COLORS } from "../../src/theme";
-
-const { width } = Dimensions.get("window");
+import { fonts } from "../../src/theme/typography";
+import { MetricChart, WindChip, compassLabel } from "../../src/components";
+import { useSettingsStore, formatTemp, formatWind } from "../../src/store/settings";
 
 export default function SensorDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const units = useSettingsStore((s) => s.units);
   const [sensor, setSensor] = useState<SensorWithReading | null>(null);
   const [history, setHistory] = useState<Reading[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +22,7 @@ export default function SensorDetailScreen() {
       try {
         const [sensorData, historyData] = await Promise.all([
           apiService.getSensor(id),
-          apiService.getSensorHistory(id, { limit: 50 }),
+          apiService.getSensorHistory(id, { limit: 24 }),
         ]);
         setSensor(sensorData);
         setHistory(historyData);
@@ -50,7 +53,6 @@ export default function SensorDetailScreen() {
   }
 
   const reading = sensor.latestReading;
-  const last24h = history.slice(-24);
   const statusColor = MAP_MARKER_COLORS[sensor.status];
 
   function formatRelativeTime(date: Date): string {
@@ -63,13 +65,22 @@ export default function SensorDetailScreen() {
     return `${Math.floor(diffHours / 24)}d ago`;
   }
 
-  function formatTime(date: Date): string {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  function batteryHealth(mv?: number): { label: string; color: string } | null {
+    if (mv == null) return null;
+    if (mv >= 4000) return { label: "Healthy", color: colors.forest };
+    if (mv >= 3700) return { label: "Good", color: colors.emberText };
+    return { label: "Low — solar needed", color: colors.danger };
   }
 
-  function extractReadingData(reading: Reading): string {
-    return `${formatTime(new Date(reading.timestamp))}, ${reading.tempC.toFixed(1)}°C, ${reading.humidityPct.toFixed(0)}%, ${reading.voc.toFixed(0)} VOC, ${reading.rssi} dBm`;
+  function signalQuality(rssi?: number): { label: string; color: string } | null {
+    if (rssi == null) return null;
+    if (rssi >= -70) return { label: "Strong", color: colors.forest };
+    if (rssi >= -85) return { label: "Moderate", color: colors.emberText };
+    return { label: "Weak", color: colors.danger };
   }
+
+  const battery = batteryHealth(reading?.batteryMv);
+  const signal = signalQuality(reading?.rssi);
 
   return (
     <>
@@ -98,9 +109,15 @@ export default function SensorDetailScreen() {
                 <Text style={[styles.statusText, { color: statusColor }]}>{sensor.status}</Text>
               </View>
             </View>
-              <Text style={styles.lastSeen} selectable>
+            <Text style={styles.lastSeen} selectable>
               Last reading {formatRelativeTime(new Date(sensor.lastSeen))}
             </Text>
+            {sensor.nodeConfig && (
+              <View style={styles.configChip}>
+                <Ionicons name="hardware-chip-outline" size={12} color={colors.forest} />
+                <Text style={styles.configText}>{sensor.nodeConfig}</Text>
+              </View>
+            )}
           </View>
 
           {reading && (
@@ -109,7 +126,9 @@ export default function SensorDetailScreen() {
               <View style={styles.readingsGrid}>
                 <View style={styles.readingCard}>
                   <Text style={styles.readingLabel} selectable>Temperature</Text>
-                  <Text style={styles.readingValue} selectable>{reading.tempC.toFixed(1)}°C</Text>
+                  <Text style={styles.readingValue} selectable>
+                    {formatTemp(reading.tempC, units).value}{formatTemp(reading.tempC, units).label}
+                  </Text>
                 </View>
                 <View style={styles.readingCard}>
                   <Text style={styles.readingLabel} selectable>Humidity</Text>
@@ -125,11 +144,40 @@ export default function SensorDetailScreen() {
                 </View>
                 <View style={styles.readingCard}>
                   <Text style={styles.readingLabel} selectable>Battery</Text>
-                  <Text style={styles.readingValue} selectable>{(reading.batteryMv / 1000).toFixed(2)}V</Text>
+                  <Text style={[styles.readingValue, { color: battery?.color ?? colors.ink }]} selectable>
+                    {(reading.batteryMv / 1000).toFixed(2)}V
+                  </Text>
+                  {battery && <Text style={[styles.readingSub, { color: battery.color }]}>{battery.label}</Text>}
                 </View>
                 <View style={styles.readingCard}>
                   <Text style={styles.readingLabel} selectable>Signal</Text>
-                  <Text style={styles.readingValue} selectable>{reading.rssi} dBm</Text>
+                  <Text style={[styles.readingValue, { color: signal?.color ?? colors.ink }]} selectable>
+                    {reading.rssi} dBm
+                  </Text>
+                  {signal && <Text style={[styles.readingSub, { color: signal.color }]}>{signal.label}</Text>}
+                </View>
+              </View>
+
+              {/* Wind — first-class measurement */}
+              <Text style={styles.sectionTitle}>Wind at Node</Text>
+              <View style={styles.windCard}>
+                <View style={styles.windLgRow}>
+                  <View style={styles.windArrowBox}>
+                    <Ionicons
+                      name="arrow-down"
+                      size={26}
+                      color={colors.sky}
+                      style={{ transform: [{ rotate: `${(reading.windDirDeg ?? 0) + 180}deg` }] }}
+                    />
+                  </View>
+                  <View style={styles.windLgInfo}>
+                    <Text style={styles.windLgValue}>
+                      {reading.windMs != null ? formatWind(reading.windMs, units).value + " " + formatWind(reading.windMs, units).label : "No data"}
+                    </Text>
+                    <Text style={styles.windLgMeta}>
+                      from {reading.windDirDeg != null ? `${compassLabel(reading.windDirDeg)} (${Math.round(reading.windDirDeg)}°)` : "—"}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </>
@@ -158,41 +206,19 @@ export default function SensorDetailScreen() {
             </View>
           </View>
 
-          {last24h.length > 0 && (
+          {/* Mesh health */}
+          <Text style={styles.sectionTitle}>Mesh Health</Text>
+          <View style={styles.meshCard}>
+            <MeshRow icon="git-branch-outline" label="Hops to gateway" value={sensor.hops != null ? `${sensor.hops}` : "—"} />
+            <MeshRow icon="server-outline" label="Gateway" value={sensor.gateway ?? "—"} />
+            <MeshRow icon="sparkles-outline" label="Firmware" value={sensor.firmware ?? "—"} />
+            <MeshRow icon="time-outline" label="Uptime" value={sensor.uptimeH != null ? `${sensor.uptimeH} h` : "—"} />
+          </View>
+
+          {history.length > 0 && (
             <>
-              <Text style={styles.sectionTitle} selectable>24h History</Text>
-              <View style={styles.historyCard} accessible={true} accessibilityRole="list">
-                {last24h.slice(-10).reverse().map((r, i) => (
-                  <View
-                    key={i}
-                    accessible={true}
-                    accessibilityRole="text"
-                    accessibilityLabel={`${extractReadingData(r)}`}
-                    style={[
-                      styles.historyRow,
-                      i < Math.min(last24h.length, 10) - 1 && styles.historyRowBorder,
-                    ]}
-                  >
-                    <Text style={styles.historyTime} selectable>{formatTime(new Date(r.timestamp))}</Text>
-                    <View style={styles.historyCapsule}>
-                      <Text style={styles.historyTemp} selectable>{r.tempC.toFixed(1)}°C</Text>
-                    </View>
-                    <View style={styles.historyBar}>
-                      <View
-                        style={[
-                          styles.historyBarFill,
-                          {
-                            width: `${Math.min((r.tempC / 60) * 100, 100)}%`,
-                            backgroundColor:
-                              r.tempC > 42 ? colors.fire : r.tempC > 35 ? colors.ember : colors.forest,
-                          },
-                        ]}
-                      />
-                    </View>
-                    <Text style={styles.historyHumidity} selectable>{r.humidityPct.toFixed(0)}%</Text>
-                  </View>
-                ))}
-              </View>
+              <Text style={styles.sectionTitle}>24h Charts</Text>
+              <MetricChart readings={history} units={units} />
             </>
           )}
         </View>
@@ -200,6 +226,14 @@ export default function SensorDetailScreen() {
     </>
   );
 }
+
+const MeshRow: React.FC<{ icon: React.ComponentProps<typeof Ionicons>["name"]; label: string; value: string }> = ({ icon, label, value }) => (
+  <View style={styles.meshRow}>
+    <Ionicons name={icon} size={15} color={colors.inkMuted} />
+    <Text style={styles.meshLabel}>{label}</Text>
+    <Text style={styles.meshValue}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
@@ -250,7 +284,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.inkMuted,
     marginTop: spacing.xs,
-    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
+    fontFamily: fonts.mono,
   },
   statusBadge: {
     flexDirection: "row",
@@ -276,12 +310,30 @@ const styles = StyleSheet.create({
     color: colors.inkMuted,
     marginTop: spacing.sm,
   },
+  configChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: spacing.xs,
+    backgroundColor: colors.forestGlow,
+    borderRadius: radius.full,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    marginTop: spacing.md,
+  },
+  configText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: colors.forest,
+    letterSpacing: 0.2,
+  },
   sectionTitle: {
     fontSize: 13,
     fontWeight: "700",
     color: colors.inkMuted,
     letterSpacing: 0.5,
     marginBottom: spacing.md,
+    marginTop: spacing.xl,
     textTransform: "uppercase",
   },
   readingsGrid: {
@@ -290,7 +342,8 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   readingCard: {
-    width: (width - spacing.lg * 2 - spacing.sm) / 2,
+    width: "48%",
+    flexGrow: 1,
     backgroundColor: colors.surface,
     borderRadius: radius.xl,
     padding: spacing.lg,
@@ -310,6 +363,46 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colors.ink,
     letterSpacing: -0.5,
+    fontVariant: ['tabular-nums'],
+  },
+  readingSub: {
+    fontSize: 10,
+    fontWeight: "700",
+    marginTop: spacing.xs,
+  },
+  windCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+    ...shadows.sm,
+    borderCurve: "continuous",
+  },
+  windLgRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.lg,
+  },
+  windArrowBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.skyLight + "18",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  windLgInfo: {
+    flex: 1,
+  },
+  windLgValue: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: colors.ink,
+    letterSpacing: -0.5,
+  },
+  windLgMeta: {
+    fontSize: 12,
+    color: colors.inkMuted,
+    marginTop: 2,
   },
   sectionRow: {
     flexDirection: "row",
@@ -328,7 +421,7 @@ const styles = StyleSheet.create({
   },
   coordsText: {
     fontSize: 13,
-    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
+    fontFamily: fonts.mono,
     color: colors.inkSoft,
     lineHeight: 20,
     letterSpacing: -0.2,
@@ -353,59 +446,31 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
     textTransform: "capitalize",
   },
-  historyCard: {
+  meshCard: {
     backgroundColor: colors.surface,
     borderRadius: radius.xl,
     overflow: "hidden",
     ...shadows.sm,
     borderCurve: "continuous",
   },
-  historyRow: {
+  meshRow: {
     flexDirection: "row",
     alignItems: "center",
+    gap: spacing.md,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
-    gap: spacing.sm,
-  },
-  historyRowBorder: {
     borderBottomWidth: 1,
     borderBottomColor: colors.bgAlt,
   },
-  historyTime: {
-    fontSize: 12,
-    color: colors.inkMuted,
-    width: 46,
-    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
-  },
-  historyCapsule: {
-    backgroundColor: colors.bgAlt,
-    borderRadius: radius.sm,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    minWidth: 48,
-    alignItems: "center",
-  },
-  historyTemp: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: colors.ink,
-  },
-  historyBar: {
+  meshLabel: {
     flex: 1,
-    height: 6,
-    backgroundColor: colors.bgAlt,
-    borderRadius: 3,
-    overflow: "hidden",
+    fontSize: 13,
+    color: colors.inkSoft,
   },
-  historyBarFill: {
-    height: "100%",
-    borderRadius: 3,
-  },
-  historyHumidity: {
-    fontSize: 11,
-    color: colors.sky,
-    fontWeight: "600",
-    width: 32,
-    textAlign: "right",
+  meshValue: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.ink,
+    fontFamily: fonts.mono,
   },
 });

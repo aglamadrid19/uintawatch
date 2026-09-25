@@ -1,0 +1,32 @@
+[
+  {
+    "id": "location",
+    "question": "Why does the app ask for my location?",
+    "answer": "Uinta Watch requests location <em>only</em> when you use the <strong>Report</strong> feature, so your fire or smoke sighting can be tied to where you observed it. The sensor map never tracks your location. If you deny permission, the rest of the app still works — you just won't be able to attach a location to a report."
+  },
+  {
+    "id": "camera",
+    "question": "Why does the app ask for camera and photo access?",
+    "answer": "So you can attach an optional photo to a report. The app only touches your camera or photo library when you explicitly choose an image, and never otherwise."
+  },
+  {
+    "id": "account",
+    "question": "Do I need an account to use the app?",
+    "answer": "No. Uinta Watch has no login, no sign-up, and no account system. Download it, open it, and everything works."
+  },
+  {
+    "id": "offline",
+    "question": "Does the app work without an internet connection?",
+    "answer": "Yes. The current release ships with bundled sample sensor data, so the map, alerts, and sensor details all work fully offline. Live network data is on the way."
+  },
+  {
+    "id": "permissions",
+    "question": "How do I change app permissions?",
+    "answer": "Open your device's <strong>Settings</strong>, scroll to <strong>Uinta Watch</strong>, and grant or revoke Location, Camera, or Photos access anytime."
+  },
+  {
+    "id": "data-policy",
+    "question": "What is the app's data collection policy?",
+    "answer": "We collect only what you submit through the Report feature. No ads, no analytics, no trackers. See our <a href='/privacy' class='text-accent hover:text-accent-dark underline'>Privacy Policy</a> for full details."
+  }
+]

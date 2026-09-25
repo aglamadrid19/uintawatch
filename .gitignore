@@ -5,7 +5,16 @@ app/ios
 app/node_modules
 app/dist
 app/.opencode/screenshots
+app/qa
+
+# website
+website/.opencode/screenshots
+website/playwright-report
+
+# planning
+planning/home-screen-concepts
 
 # general
 .DS_Store
 .env*
+planning/home-screen-concepts/

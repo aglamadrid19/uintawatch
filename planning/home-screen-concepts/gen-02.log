@@ -1,0 +1,13 @@
+  attempt 1 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+  attempt 2 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+  attempt 3 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+  attempt 4 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+  attempt 5 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+  attempt 6 failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes
+Traceback (most recent call last):
+  File "/Volumes/CrucialX10/uintawatch/planning/home-screen-concepts/gen.py", line 44, in <module>
+    generate(model, prompt_path, out_path, size)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/CrucialX10/uintawatch/planning/home-screen-concepts/gen.py", line 31, in generate
+    raise RuntimeError(f"all attempts failed: {last_err}")
+RuntimeError: all attempts failed: {"error":{"type":"Invalid request parameters","message":"Oops, peer could not complete the request.\nAntseed is a peer-to-peer network. Try another peer or use Auto routing.\nOriginal Response: {\"mes

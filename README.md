@@ -1,6 +1,6 @@
 # Uinta Watch
 
-**Community wildfire detection. Open source. Open access. Built by Utahns, for Utah.**
+**An open-source community network for early wildfire detection, built by Utahns for Utah.**
 
 Uinta Watch is a community-driven, open-source early wildfire detection network for Utah's wildlands. Solar-powered LoRa mesh sensors are deployed across the canyons, ridgelines, and rangelands where fires start unannounced — they talk to each other, relay through gateway nodes to the internet, and feed a real-time warning system that anyone can view.
 
@@ -14,6 +14,8 @@ Utah is burning, and it's getting worse:
 - **$240M** spent fighting the 2025 fire season
 - **180+ structures** destroyed and **3 on-duty firefighter deaths** in 2026
 - **75%** of Utah wildfires are human-caused — and catchable early
+
+Figures compiled from Deseret News' wildfire reporting (Aug 2026), the Utah State Forester, and federal incident reports; year-by-year detail and citations in [`planning/utah-wildfire-research.md`](planning/utah-wildfire-research.md).
 
 The gap between smoke and response is measured in hours. Cell towers don't reach every ridge, satellites capture images hours old, and the first person to spot smoke is usually a hiker, rancher, or neighbor with no way to feed that sighting into the emergency network. Uinta Watch exists to close that gap.
 
@@ -123,7 +125,7 @@ A sensor node costs roughly **$85–150**:
 | Component | Product | Role |
 |---|---|---|
 | Base radio | LILYGO T-Echo (915MHz) | LoRa + GPS + low-power NRF52, configurable via the Meshtastic app |
-| Environmental sensor | BME688 or BME280 | Temp, humidity, pressure; BME688 adds H₂/CO/CO₂/VOC gas sensing — the primary early-fire signal |
+| Environmental sensor | BME688 or BME280 | Temp, humidity, pressure; BME688 adds H₂/CO/CO₂/VOC gas sensing — one input under test for early detection, not yet proven as the primary signal |
 | Power | 5V solar panel + 18650 Li-ion + TP4056 | 2–3 day battery autonomy |
 | Enclosure | 3D print or IP66 box | Weatherproofing |
 
@@ -142,7 +144,7 @@ The network is only as strong as its community. Ways to contribute:
 - **Write code** — React Native, Node.js, and firmware contributions are all welcome. See [`CONTRIBUTING`](CONTRIBUTING.md).
 - **Educate and organize** — help your neighbors and local officials understand what Uinta Watch is and why it matters.
 
-No cell signal? The mesh still carries the data. Power outage? The sensors keep watching. The network doesn't go dark when you need it most.
+When cell signal drops or the power goes out, the mesh keeps carrying data and the sensors keep watching.
 
 ## Status
 

@@ -16,12 +16,15 @@ import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { apiService } from "../../src/services/api";
 import { LoadingOverlay } from "../../src/components";
 import { colors, spacing, radius, shadows } from "../../src/theme";
+import { fonts } from "../../src/theme/typography";
 
 export default function ReportScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [description, setDescription] = useState("");
@@ -81,9 +84,10 @@ export default function ReportScreen() {
         text: description.trim(),
         photoUri: photoUri || undefined,
       });
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
       Alert.alert(
         "Report submitted",
-        "Thank you for your report. Local authorities have been notified.",
+        "Your sighting is now in the community feed and on the public map. Network observers and nearby users can see it and corroborate.",
         [{ text: "OK", onPress: () => router.back() }],
       );
     } catch (err: any) {
@@ -113,7 +117,8 @@ export default function ReportScreen() {
           </View>
           <Text style={styles.heroTitle}>Report Fire or Smoke</Text>
           <Text style={styles.heroSubtitle}>
-            Help protect Utah's wildlands. Your report feeds the early warning system.
+            What you see on the ground is the ground truth. Your report joins the
+            community feed and the public map for others to corroborate.
           </Text>
         </View>
 
@@ -188,7 +193,8 @@ export default function ReportScreen() {
             </View>
           )}
         </View>
-
+      </ScrollView>
+      <View style={styles.submitFooter} pointerEvents={submitting ? 'none' : 'auto'}>
         <TouchableOpacity
           style={[styles.submitBtn, !isValid && styles.submitBtnDisabled]}
           onPress={handleSubmit}
@@ -200,10 +206,10 @@ export default function ReportScreen() {
         >
           <Ionicons name="paper-plane" size={18} color="#fff" style={{ marginRight: spacing.sm }} />
           <Text style={styles.submitBtnText} selectable>
-            {submitting ? "Submitting..." : isValid ? "Submit report" : "Submit report requires location and description"}
+            {submitting ? "Submitting..." : "Submit report"}
           </Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
       <LoadingOverlay visible={submitting} message="Submitting report..." />
     </KeyboardAvoidingView>
   );
@@ -214,7 +220,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: {
     padding: spacing.lg,
-    paddingBottom: 160,
+    paddingBottom: spacing.md,
   },
   hero: {
     alignItems: "center",
@@ -231,8 +237,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   heroTitle: {
+    fontFamily: fonts.serif,
     fontSize: 24,
-    fontWeight: "700",
     color: colors.ink,
     letterSpacing: -0.5,
     marginBottom: spacing.xs,
@@ -325,6 +331,8 @@ const styles = StyleSheet.create({
   },
   removeBtn: {
     marginTop: spacing.md,
+    minHeight: 44,
+    justifyContent: "center",
   },
   removeBtnText: {
     fontSize: 14,
@@ -357,6 +365,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colors.inkSoft,
   },
+  submitFooter: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.md,
+    backgroundColor: colors.bg,
+    borderTopWidth: 1,
+    borderTopColor: colors.bgAlt,
+  },
   submitBtn: {
     flexDirection: "row",
     backgroundColor: colors.fire,
@@ -365,7 +381,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: spacing.sm,
     ...shadows.md,
   },
   submitBtnDisabled: {

@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('journal');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Layout title={post.data.title} description={post.data.summary} ogImage={`/images/og/${post.id}.png`}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-ink rounded">Skip to content</a>
+  <main id="main-content">
+
+    <article class="section-loose bg-paper">
+      <div class="container">
+        <div class="max-w-2xl">
+          <a href="/journal" class="text-xs font-medium text-accent hover:underline mb-8 inline-block">← Lab Journal</a>
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <time class="text-xs text-ink-muted" datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+            {post.data.tags.map(tag => (
+              <span class="px-2 py-0.5 bg-accent/10 text-accent text-xs font-medium rounded">{tag}</span>
+            ))}
+          </div>
+          <h1 class="text-display-xl text-ink mb-6 leading-tight">{post.data.title}</h1>
+          <div class="rule mb-10"></div>
+          <div class="journal-prose text-ink-soft">
+            <Content />
+          </div>
+          <div class="rule mt-12 mb-8"></div>
+          <a href="/journal" class="text-xs font-medium text-accent hover:underline">← Back to all entries</a>
+        </div>
+      </div>
+    </article>
+  </main>
+</Layout>

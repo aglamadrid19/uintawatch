@@ -5,10 +5,19 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://uintawatch.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      namespaces: {
+        news: false,
+        xhtml: false,
+        image: false,
+        video: false,
+      },
+    }),
+  ],
   fonts: [
     {
-      provider: fontProviders.fontsource(),
+      provider: fontProviders.npm({ remote: false }),
       name: 'DM Serif Display',
       cssVariable: '--font-display',
       fallbacks: ['Georgia', 'serif'],
@@ -17,7 +26,7 @@ export default defineConfig({
       subsets: ['latin'],
     },
     {
-      provider: fontProviders.fontsource(),
+      provider: fontProviders.npm({ remote: false }),
       name: 'Archivo',
       cssVariable: '--font-body',
       fallbacks: ['system-ui', 'sans-serif'],

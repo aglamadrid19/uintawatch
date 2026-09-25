@@ -1,0 +1,6 @@
+[
+  { "id": "acres", "order": 1, "number": "1.2M", "label": "Acres burned", "context": "Utah since 2015" },
+  { "id": "costs", "order": 2, "number": "$240M", "label": "Firefighting costs", "context": "2025 season" },
+  { "id": "structures", "order": 3, "number": "180+", "label": "Structures destroyed", "context": "2026 season" },
+  { "id": "deaths", "order": 4, "number": "3", "label": "On-duty firefighter deaths", "context": "2026 season" }
+]

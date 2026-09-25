@@ -1,28 +1,28 @@
 import React, { useCallback, useState } from "react";
-import { View, Text, StyleSheet, FlatList, RefreshControl, ActivityIndicator } from "react-native";
-import { useAlerts } from "../../src/hooks";
-import { AlertItem } from "../../src/components";
+import { View, Text, StyleSheet, FlatList, RefreshControl, ActivityIndicator, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import { useAlerts, useReports } from "../../src/hooks";
+import { AlertItem, ReportCard } from "../../src/components";
 import { Alert } from "../../src/types";
 import { colors, spacing, radius, shadows } from "../../src/theme";
+import { fonts } from "../../src/theme/typography";
 
 export default function AlertFeedScreen() {
+  const router = useRouter();
   const { data: alerts, isLoading, error, refetch } = useAlerts();
+  const { data: reports, refetch: refetchReports } = useReports();
   const [refreshing, setRefreshing] = useState(false);
+  const [segment, setSegment] = useState<'alerts' | 'reports'>('alerts');
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await refetch();
+    await Promise.all([refetch(), refetchReports()]);
     setRefreshing(false);
-  }, [refetch]);
-
-  const renderItem = useCallback(({ item }: { item: Alert }) => (
-    <AlertItem alert={item} />
-  ), []);
-
-  const keyExtractor = useCallback((item: Alert) => item.id, []);
+  }, [refetch, refetchReports]);
 
   const activeAlerts = alerts?.filter((a) => !a.resolved) || [];
   const resolvedAlerts = alerts?.filter((a) => a.resolved) || [];
+  const reportList = reports ?? [];
 
   if (isLoading && !alerts) {
     return (
@@ -45,68 +45,141 @@ export default function AlertFeedScreen() {
         <Text style={styles.emptySubtext}>
           Unable to retrieve alerts. Please check your internet connection and try again.
         </Text>
+        <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()} accessibilityRole="button" accessibilityLabel="Try again">
+          <Text style={styles.retryBtnText} selectable>Try again</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={[...activeAlerts, ...resolvedAlerts]}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.list}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.fire} />
-        }
-        ListEmptyComponent={
-          activeAlerts.length === 0 && resolvedAlerts.length === 0 ? (
+      {/* Segmented control: sensor alerts vs community reports */}
+      <View style={styles.segmentWrap}>
+        <View style={styles.segmentBar}>
+          <TouchableOpacity
+            style={[styles.segmentBtn, segment === 'alerts' && styles.segmentActive]}
+            onPress={() => setSegment('alerts')}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: segment === 'alerts' }}
+          >
+            <Text style={[styles.segmentText, segment === 'alerts' && styles.segmentTextActive]}>
+              Sensor Alerts
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.segmentBtn, segment === 'reports' && styles.segmentActive]}
+            onPress={() => setSegment('reports')}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: segment === 'reports' }}
+          >
+            <Text style={[styles.segmentText, segment === 'reports' && styles.segmentTextActive]}>
+              Community Reports
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {segment === 'alerts' ? (
+        <FlatList
+          data={[...activeAlerts, ...resolvedAlerts]}
+          renderItem={({ item }: { item: Alert }) => (
+            <AlertItem alert={item} onPress={() => router.push(`/alert/${item.id}`)} />
+          )}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.fire} />
+          }
+          ListEmptyComponent={
+            activeAlerts.length === 0 && resolvedAlerts.length === 0 ? (
+              <View style={styles.emptyState}>
+                <View style={styles.emptyIconWrap}>
+                  <View style={styles.emptyIconInner}>
+                    <Text style={styles.emptyIcon}>◇</Text>
+                  </View>
+                </View>
+                <Text style={styles.emptyText}>All clear</Text>
+                <Text style={styles.emptySubtext}>
+                  Detection events from the sensor mesh will appear here.
+                </Text>
+              </View>
+            ) : null
+          }
+          ListHeaderComponent={
+            alerts && alerts.length > 0 ? (
+              <View style={styles.summaryCard}>
+                <View style={styles.summaryRow}>
+                  <View style={styles.summaryItem}>
+                    <Text style={[styles.summaryCount, { color: colors.fire }]}>
+                      {activeAlerts.length}
+                    </Text>
+                    <Text style={styles.summaryLabel}>Active</Text>
+                  </View>
+                  <View style={styles.summaryDivider} />
+                  <View style={styles.summaryItem}>
+                    <Text style={[styles.summaryCount, { color: colors.forest }]}>
+                      {resolvedAlerts.length}
+                    </Text>
+                    <Text style={styles.summaryLabel}>Resolved</Text>
+                  </View>
+                  <View style={styles.summaryDivider} />
+                  <View style={styles.summaryItem}>
+                    <Text style={[styles.summaryCount, { color: colors.ink }]}>
+                      {alerts.length}
+                    </Text>
+                    <Text style={styles.summaryLabel}>Total</Text>
+                  </View>
+                </View>
+                <View style={styles.severityBar}>
+                  <View style={[styles.severitySegment, { flex: activeAlerts.length || 0.1, backgroundColor: colors.fire }]} />
+                  <View style={[styles.severitySegment, { flex: resolvedAlerts.length || 0.1, backgroundColor: colors.forest }]} />
+                </View>
+              </View>
+            ) : null
+          }
+        />
+      ) : (
+        <FlatList
+          data={reportList}
+          renderItem={({ item }) => (
+            <ReportCard
+              report={item}
+              onPress={() => router.push(`/report/${item.id}`)}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.fire} />
+          }
+          ListEmptyComponent={
             <View style={styles.emptyState}>
               <View style={styles.emptyIconWrap}>
-                <View style={styles.emptyIconInner}>
-                  <Text style={styles.emptyIcon}>◇</Text>
+                <View style={[styles.emptyIconInner, { backgroundColor: colors.emberGlow }]}>
+                  <Text style={[styles.emptyIcon, { color: colors.ember }]}>◉</Text>
                 </View>
               </View>
-              <Text style={styles.emptyText}>All clear</Text>
+              <Text style={styles.emptyText}>No reports yet</Text>
               <Text style={styles.emptySubtext}>
-                Fire detection alerts will appear here.{'\n'}The network is monitoring 24/7.
+                Community fire and smoke sightings appear here.{'\n'}
+                Use the Report tab to add one.
               </Text>
             </View>
-          ) : null
-        }
-        ListHeaderComponent={
-          alerts && alerts.length > 0 ? (
-            <View style={styles.summaryCard}>
-              <View style={styles.summaryRow}>
-                <View style={styles.summaryItem}>
-                  <Text style={[styles.summaryCount, { color: colors.fire }]}>
-                    {activeAlerts.length}
-                  </Text>
-                  <Text style={styles.summaryLabel}>Active</Text>
-                </View>
-                <View style={styles.summaryDivider} />
-                <View style={styles.summaryItem}>
-                  <Text style={[styles.summaryCount, { color: colors.forest }]}>
-                    {resolvedAlerts.length}
-                  </Text>
-                  <Text style={styles.summaryLabel}>Resolved</Text>
-                </View>
-                <View style={styles.summaryDivider} />
-                <View style={styles.summaryItem}>
-                  <Text style={[styles.summaryCount, { color: colors.ink }]}>
-                    {alerts.length}
-                  </Text>
-                  <Text style={styles.summaryLabel}>Total</Text>
-                </View>
+          }
+          ListHeaderComponent={
+            reportList.length > 0 ? (
+              <View style={styles.reportsHeader}>
+                <Text style={styles.reportsHeaderTitle}>{reportList.length} community reports</Text>
+                <Text style={styles.reportsHeaderHint}>
+                  Unverified observations from people on the ground. Reports are
+                  information, not confirmation — always verify visually before acting.
+                </Text>
               </View>
-              <View style={styles.severityBar}>
-                <View style={[styles.severitySegment, { flex: activeAlerts.length || 0.1, backgroundColor: colors.fire }]} />
-                <View style={[styles.severitySegment, { flex: resolvedAlerts.length || 0.1, backgroundColor: colors.forest }]} />
-              </View>
-            </View>
-          ) : null
-        }
-      />
+            ) : null
+          }
+        />
+      )}
     </View>
   );
 }
@@ -124,10 +197,56 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.inkMuted,
   },
+  segmentWrap: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.xs,
+  },
+  segmentBar: {
+    flexDirection: "row",
+    backgroundColor: colors.bgAlt,
+    borderRadius: radius.full,
+    padding: 3,
+  },
+  segmentBtn: {
+    flex: 1,
+    paddingVertical: spacing.sm - 2,
+    minHeight: 44,
+    justifyContent: "center",
+    borderRadius: radius.full,
+    alignItems: "center",
+  },
+  segmentActive: {
+    backgroundColor: colors.surface,
+    ...shadows.sm,
+  },
+  segmentText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: colors.inkMuted,
+  },
+  segmentTextActive: {
+    color: colors.ink,
+  },
   list: {
     paddingTop: spacing.sm,
     paddingBottom: 100,
     flexGrow: 1,
+  },
+  reportsHeader: {
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.sm,
+  },
+  reportsHeaderTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.inkSoft,
+    marginBottom: spacing.xs,
+  },
+  reportsHeaderHint: {
+    fontSize: 12,
+    color: colors.inkMuted,
+    lineHeight: 18,
   },
   summaryCard: {
     backgroundColor: colors.surface,
@@ -148,8 +267,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   summaryCount: {
+    fontFamily: fonts.serif,
     fontSize: 32,
-    fontWeight: "700",
     letterSpacing: -1,
   },
   summaryLabel: {
@@ -200,8 +319,8 @@ const styles = StyleSheet.create({
     color: colors.forest,
   },
   emptyText: {
+    fontFamily: fonts.serif,
     fontSize: 20,
-    fontWeight: "700",
     color: colors.ink,
     marginBottom: spacing.sm,
   },
@@ -210,5 +329,19 @@ const styles = StyleSheet.create({
     color: colors.inkMuted,
     textAlign: "center",
     lineHeight: 22,
+  },
+  retryBtn: {
+    marginTop: spacing.lg,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+    minHeight: 44,
+    justifyContent: "center",
+    backgroundColor: colors.ink,
+    borderRadius: radius.full,
+  },
+  retryBtnText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: colors.surface,
   },
 });

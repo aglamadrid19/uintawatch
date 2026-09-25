@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
     fontSize: 12,
     fontWeight: "600",
-    color: colors.fire,
+    color: colors.fireText,
   },
   resolvedBadge: {
     backgroundColor: colors.forestGlow,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   sensorId: {
     fontSize: 10,
-    color: colors.inkDim,
+    color: colors.inkMuted,
     fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
   },
 });
