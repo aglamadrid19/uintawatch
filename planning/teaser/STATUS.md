@@ -19,7 +19,8 @@ Session was compacted; this file is the handoff. Working dir: `/Volumes/CrucialX
 - Article references a teaser video placeholder `[teaser video here]` — video must exist to embed.
 
 ### 2. Teaser video — v1 RENDERED, needs revision
-- Current output: `planning/teaser/uintawatch-teaser.mp4` (54s, 1920x1080@30, h264 crf18, silent, 4.3MB)
+- Current output: `planning/teaser/uintawatch-teaser.mp4` (60.0s, 1920x1080@30, h264 crf18, silent, ~3.9MB)
+- Also: `uintawatch-teaser-vo.mp4` — same render with a machine-generated scratch VO (edge-tts en-US-AndrewNeural, 13 lines placed at the caption cues, -16 LUFS). Built by `make_vo.py` + `mix_vo.py`; script text in `voiceover.md`. For the real submission the user can record VO over the silent master; the VO version works as-is.
 - Builder: `planning/teaser/build_video.py` (generates ffmpeg filtergraph; 12 segments, xfade 0.4s)
 - Cards: `planning/teaser/build_cards.py` → `planning/teaser/cards/*.png` (Pillow, brand fonts, transparent 1920x1080) — title/stats/end cards + left-column caption cards. **Fonts converted woff2→ttf** (homebrew ffmpeg 9.0.2 has NO drawtext — no freetype; that's why cards are PNGs) in `planning/teaser/fonts/`.
 - Brand: cream `#FAF8F5`, ink `#1C1814`, soft `#4A443E`, accent `#C45A3B`, alert `#E8593A`. Fonts: DM Serif Display (headlines), Archivo (body).
