@@ -89,7 +89,7 @@ def endcard():
         d.text((960, 480), "The ridges are watching.", font=font(SERIF, 100), fill=INK, anchor="ma")
         d.text((960, 655), "Now they keep a lab notebook, too.", font=font(SERIF, 58), fill=ACCENT, anchor="ma")
         d.text((960, 845), "github.com/aglamadrid19/uintawatch", font=font(ARCHB, 38), fill=INK, anchor="ma")
-        d.text((960, 920), "Built with opencode × AntSeed", font=font(ARCH, 32), fill=SOFT, anchor="ma")
+        d.text((960, 920), "Built with AntSeed", font=font(ARCH, 32), fill=SOFT, anchor="ma")
     card("card-end", fn)
 
 # ---- website browser-card assets: centered full-site slide ----
