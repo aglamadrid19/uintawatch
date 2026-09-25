@@ -57,21 +57,23 @@ def color_seg(d, cards_with_st):
     chain += f";[b{k}{chr(97+n)}]fps=30,format=yuv420p,setsar=1[s{k}]"
     segs_info.append((chain, d))
 
-def webcard_seg(d, card, text_st=0.25, zoom=0.0006):
-    """Website screenshot as a large browser card on the right (no text overlap).
-    Card is 1000x630 at (880,240); frame ring 1008x638 at (876,236)."""
+def webcard_seg(d, card, text_st=0.3, zoom=0.0008):
+    """Full site in a centered browser card (chrome bar + URL pill).
+    Card: content 1100x619 at (410,287), chrome 1100x52 at (410,235),
+    frame ring 1108x679 at (406,231), shadow 1280x851 centered at (320,145)."""
     k = len(segs_info)
-    vi = add_input(f"-i {CARDS}/webcrop.png")          # 860x540
-    sh_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/cardshadow.png")
-    fr_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/cardframe.png")
+    vi = add_input(f"-i {CARDS}/webfull.png")          # 1100x619, cream-rounded corners
+    ch_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browser-chrome.png")
+    sh_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browsershadow.png")
+    fr_i = add_input(f"-loop 1 -t {d} -i {BEZEL}/browser-frame.png")
     tx_i = add_input(f"-loop 1 -t {d} -i {CARDS}/{card}.png")
-    chain = (f"[{vi}:v]scale=927:584:flags=lanczos,"
-             f"zoompan=z='min(1.0+{zoom}*on,1.1)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2'"
-             f":d={int(d*30)+1}:s=1000x630:fps=30[p{k}];"
+    chain = (f"[{vi}:v]zoompan=z='min(1.0+{zoom}*on,1.08)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2'"
+             f":d={int(d*30)+1}:s=1100x619:fps=30[p{k}];"
              f"color=c={CREAM}:s=1920x1080:d={d}[b{k}];"
-             f"[b{k}][{sh_i}:v]overlay=787:126[osh{k}];"
-             f"[osh{k}][p{k}]overlay=880:240[od{k}];"
-             f"[od{k}][{fr_i}:v]overlay=876:236[obb{k}];"
+             f"[b{k}][{sh_i}:v]overlay=320:145[osh{k}];"
+             f"[osh{k}][p{k}]overlay=410:287[od{k}];"
+             f"[od{k}][{ch_i}:v]overlay=410:235[oc{k}];"
+             f"[oc{k}][{fr_i}:v]overlay=406:231[obb{k}];"
              f"[{tx_i}:v]format=rgba,fade=t=in:st={text_st}:d=0.45:alpha=1[tx{k}];"
              f"[obb{k}][tx{k}]overlay=0:0,fps=30,format=yuv420p,setsar=1[s{k}]")
     segs_info.append((chain, d))
@@ -97,16 +99,19 @@ webcard_seg(5.0, "txt-web")
 color_seg(6.0, [("LOGO:240:170", 0), ("card-end", 0.5)])
 
 # ---------------- xfade chain ----------------
-# per-join fade durations: join i = the transition INTO segment i.
-# Slower (0.7s) into/out of the report flow and the website card; 0.4s elsewhere.
+# per-join fade durations + kinds: join i = the transition INTO segment i.
+# Phone-flow joins: fade 0.7s. Website card + end card: fade THROUGH WHITE
+# (plain crossfade would ghost the browser card across the phone column).
 JOIN_TR = {8: 0.7, 9: 0.7, 10: 0.7, 11: 0.7, 12: 0.7}
+JOIN_KIND = {11: "fadewhite", 12: "fadewhite"}
 fc = ";".join(c for c, _ in segs_info)
 off, last = 0.0, "s0"
 for i in range(1, len(segs_info)):
     tr = JOIN_TR.get(i, TR)
+    kind = JOIN_KIND.get(i, "fade")
     off += segs_info[i - 1][1] - tr
     out = "vout" if i == len(segs_info) - 1 else f"x{i}"
-    fc += f";[{last}][s{i}]xfade=transition=fade:duration={tr}:offset={round(off,3)}[{out}]"
+    fc += f";[{last}][s{i}]xfade=transition={kind}:duration={tr}:offset={round(off,3)}[{out}]"
     last = out
 
 total = sum(s[1] for s in segs_info) - sum(JOIN_TR.values()) - TR * (len(segs_info) - 1 - len(JOIN_TR))

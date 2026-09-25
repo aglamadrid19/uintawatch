@@ -55,7 +55,14 @@ left_card("txt-agent-b", None, None, "Grounded in the app data — honest about 
 left_card("txt-report-a", "COMMUNITY REPORTS", "See smoke? Report it.")
 left_card("txt-report-type", "WHAT DID YOU SEE?", "Type what you see.", "Every report is public and geotagged.")
 left_card("txt-report-b", None, None, "Reports persist offline until the backend exists.")
-left_card("txt-web", "OPEN BY DEFAULT", "Published in public", "uintawatch.com — the public lab notebook")
+
+# web slide: centered above/below the browser card (no left column — card is standalone)
+def txt_web():
+    def fn(d, im):
+        d.text((960, 58), "OPEN BY DEFAULT", font=font(ARCHB, 30), fill=ACCENT, anchor="ma")
+        d.text((960, 98), "Published in public", font=font(SERIF, 76), fill=INK, anchor="ma")
+        d.text((960, 945), "uintawatch.com — the public lab notebook", font=font(ARCH, 36), fill=SOFT, anchor="ma")
+    card("txt-web", fn)
 
 # ---- full-frame cards ----
 def title():
@@ -85,29 +92,58 @@ def endcard():
         d.text((960, 920), "Built with opencode × AntSeed", font=font(ARCH, 32), fill=SOFT, anchor="ma")
     card("card-end", fn)
 
-# ---- website browser-card assets ----
+# ---- website browser-card assets: centered full-site slide ----
+CW, CH_CONTENT = 1100, 619          # full site scaled to 1100 wide
+CHROME_H = 52
+CH = CHROME_H + CH_CONTENT          # 671 total card height
+CARD_X, CARD_Y = 410, 235           # card top-left on canvas
+
 def webcard():
-    home = Image.open(f"{BASE}/frames/web/home.png").convert("RGBA")
-    crop = home.crop((1085, 81, 1891, 589))          # 806 x 508: hero photo + cream margin right, no nav/text
-    crop.save(f"{OUTD}/webcrop.png")
-    CW, CH = 1000, 630                                # browser card size on canvas
+    home = Image.open(f"{BASE}/frames/web/home.png").convert("RGB")
+    dc0 = ImageDraw.Draw(home)
+    # paint out the floating widget in the bottom-right corner (half-cut by the card frame)
+    dc0.rounded_rectangle([1660, 900, 1920, 1080], radius=20, fill=(250, 248, 245))
+    full = home.resize((CW, CH_CONTENT), Image.LANCZOS)
+    # round bottom corners via mask composited over opaque cream (zoompan drops alpha)
+    r = 18
+    mask = Image.new("L", (CW, CH_CONTENT), 255)
+    dm = ImageDraw.Draw(mask)
+    dm.rectangle([0, CH_CONTENT - r, r, CH_CONTENT], fill=0)
+    dm.pieslice([0, CH_CONTENT - 2 * r, 2 * r, CH_CONTENT], 90, 180, fill=255)
+    dm.rectangle([CW - r, CH_CONTENT - r, CW, CH_CONTENT], fill=0)
+    dm.pieslice([CW - 2 * r, CH_CONTENT - 2 * r, CW, CH_CONTENT], 0, 90, fill=255)
+    cream = Image.new("RGB", (CW, CH_CONTENT), (250, 248, 245))
+    Image.composite(full, cream, mask).save(f"{OUTD}/webfull.png")
+    # chrome bar: rounded top corners (rect drawn taller, bottom rounding clipped off)
+    chrome = Image.new("RGBA", (CW, CHROME_H), (0, 0, 0, 0))
+    dc = ImageDraw.Draw(chrome)
+    dc.rounded_rectangle([0, 0, CW - 1, CHROME_H * 2], radius=r, fill=(240, 235, 227, 255))
+    for i, col in enumerate([(201, 106, 86), (214, 170, 90), (137, 166, 120)]):
+        x = 32 + i * 30
+        dc.ellipse([x - 7, CHROME_H // 2 - 7, x + 7, CHROME_H // 2 + 7], fill=col + (255,))
+    dc.rounded_rectangle([360, 11, 740, 41], radius=15, fill=(250, 248, 245, 255),
+                         outline=(214, 205, 194, 255), width=1)
+    dc.text((CW // 2, CHROME_H // 2), "uintawatch.com", font=font(ARCH, 20), fill=SOFT, anchor="mm")
+    chrome.save(f"{BEZELD}/browser-chrome.png")
+    # frame ring: CW+8 x CH+8 with CW x CH rounded hole + rim
+    W, H = CW + 8, CH + 8
+    mk = Image.new("L", (W, H), 0)
+    dmk = ImageDraw.Draw(mk)
+    dmk.rounded_rectangle([0, 0, W - 1, H - 1], radius=24, fill=255)
+    dmk.rounded_rectangle([4, 4, W - 5, H - 5], radius=20, fill=0)
+    frame = Image.new("RGBA", (W, H), (24, 19, 15, 255)); frame.putalpha(mk)
+    dvf = ImageDraw.Draw(frame)
+    dvf.rounded_rectangle([3, 3, W - 4, H - 4], radius=23, outline=(70, 62, 52, 255), width=2)
+    frame.save(f"{BEZELD}/browser-frame.png")
+    # soft shadow behind the card
     pad = 90
     m = Image.new("L", (CW + pad * 2, CH + pad * 2), 0)
-    dm = ImageDraw.Draw(m)
-    dm.rounded_rectangle([pad + 6, pad + 16, pad + CW - 6, pad + CH + 16], radius=30, fill=100)
+    dm2 = ImageDraw.Draw(m)
+    dm2.rounded_rectangle([pad + 6, pad + 16, pad + CW - 6, pad + CH + 16], radius=30, fill=100)
     m = m.filter(ImageFilter.GaussianBlur(24))
     shadow = Image.new("RGBA", m.size, (20, 14, 8, 0)); shadow.putalpha(m)
-    shadow.save(f"{BEZELD}/cardshadow.png")
-    # thin frame ring: CW+8 x CH+8 with CW x CH rounded hole + rim
-    W, H = CW + 8, CH + 8
-    mask = Image.new("L", (W, H), 0)
-    dmk = ImageDraw.Draw(mask)
-    dmk.rounded_rectangle([0, 0, W - 1, H - 1], radius=32, fill=255)
-    dmk.rounded_rectangle([4, 4, W - 5, H - 5], radius=28, fill=0)
-    frame = Image.new("RGBA", (W, H), (24, 19, 15, 255)); frame.putalpha(mask)
-    dvf = ImageDraw.Draw(frame)
-    dvf.rounded_rectangle([3, 3, W - 4, H - 4], radius=29, outline=(70, 62, 52, 255), width=2)
-    frame.save(f"{BEZELD}/cardframe.png")
+    shadow.save(f"{BEZELD}/browsershadow.png")
+    print(f"browser card: content {CW}x{CH_CONTENT} chrome {CHROME_H} card {CW}x{CH} at ({CARD_X},{CARD_Y})")
 
-title(); stats(); endcard(); webcard()
+title(); stats(); endcard(); txt_web(); webcard()
 print("done")
